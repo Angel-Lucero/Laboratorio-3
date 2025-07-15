@@ -98,4 +98,8 @@ public class LoginController implements Initializable {
         principal.getNuevoUsuarioView();
     }   
     
+    public void provisional (ActionEvent e){
+        principal.getMenuPrincipalView();
+    }   
+    
 }

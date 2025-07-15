@@ -1,6 +1,14 @@
-org\laboratorio\controller\NuevoUsuarioController.class
+org\laboratorio\controller\ClientesController.class
 org\laboratorio\system\Main.class
 org\laboratorio\model\Usuario.class
-org\laboratorio\controller\MenuPrincipalController.class
+org\laboratorio\controller\MovimientosInventarioController.class
+org\laboratorio\controller\ProductosController.class
+org\laboratorio\controller\ProductoProveedorController.class
 org\laboratorio\controller\LoginController.class
+org\laboratorio\controller\NuevoUsuarioController.class
+org\laboratorio\controller\EspecificacionesController.class
+org\laboratorio\controller\ProveedoresController.class
 org\laboratorio\database\Conexion.class
+org\laboratorio\controller\DetalleVentaController.class
+org\laboratorio\controller\VentasController.class
+org\laboratorio\controller\MenuPrincipalController.class
