@@ -3,5 +3,82 @@
  */
 
 .mainFxmlClass {
+.root {
+    -fx-background-color: #f8f9fa;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
 
+.label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 14px;
+}
+
+.label-title {
+    -fx-font-size: 36px;
+    -fx-text-fill: #1565c0;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-background-color: #1565c0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #0d47a1;
+}
+
+.text-field {
+    -fx-background-color: #f5f5f5;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+.table-view {
+    -fx-border-color: #ccc;
+    -fx-background-color: white;
+    -fx-table-cell-border-color: #ddd;
+    -fx-font-size: 13px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #1565c0;
+}
+
+.table-view .column-header, 
+.table-view .filler {
+    -fx-size: 30px;
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.date-picker {
+    -fx-background-color: #f5f5f5;
+    -fx-border-radius: 5;
+    -fx-border-color: #ccc;
+}
+.table-view {
+    -fx-background-color: #e3f2fd; /* Fondo azul claro */
+    -fx-border-color: #ccc;
+    -fx-table-cell-border-color: #ddd;
+    -fx-font-size: 13px;
+}
+.mainFxmlClass {
+    -fx-background: #90caf9;
+}
+.table-view {
+    -fx-background-color: #42a5f5; /* Azul intenso para TableView */
+}
+.text-field {
+    -fx-background-color: #42a5f5; /* Azul intenso para TextField */
+}
 }
