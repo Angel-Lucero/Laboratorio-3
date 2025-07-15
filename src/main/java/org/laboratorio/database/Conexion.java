@@ -13,8 +13,8 @@ public class Conexion {
     private static Conexion instancia;
     private Connection conexion;
 
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/VentasElExito?useSSL=false";
-    private static final String USER = "quintom";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/DBlaboratorio?useSSL=false";
+    private static final String USER = "quintov";
     private static final String PASSWORD = "admin";
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     
