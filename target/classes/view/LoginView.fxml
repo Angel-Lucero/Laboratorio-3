@@ -65,7 +65,7 @@
                </font>
             </Button>
             <Label fx:id="LabMensaje" alignment="CENTER" layoutX="36.0" layoutY="79.0" prefHeight="18.0" prefWidth="230.0" textFill="#ec2d2d" />
-            <Text layoutX="23.0" layoutY="319.0" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Es tu primera vez ingresando a la Pokedex de Kinal?" textAlignment="CENTER" wrappingWidth="243.73668670654297">
+            <Text layoutX="24.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" text="¿Es tu primera vez ingresando a la Kinal Tech?" textAlignment="CENTER" wrappingWidth="243.73668670654297">
                <font>
                   <Font size="11.0" />
                </font>

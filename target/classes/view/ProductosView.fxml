@@ -12,38 +12,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="1622.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.ProductosController">
+<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="1123.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.ProductosController">
     <stylesheets>
         <URL value="@Productos_View.css" />
     </stylesheets>
    <children>
       <Button layoutX="29.0" layoutY="28.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
-      <TableView fx:id="tablaProductos" layoutX="22.0" layoutY="137.0" prefHeight="259.0" prefWidth="1556.0">
+      <TableView fx:id="tablaProductos" layoutX="22.0" layoutY="137.0" prefHeight="259.0" prefWidth="1194.0">
          <columns>
             <TableColumn fx:id="colId" prefWidth="65.0" text="ID" />
-            <TableColumn fx:id="colCodigoBarras" prefWidth="106.0" text="Codigo Barras" />
             <TableColumn fx:id="colNombre" prefWidth="66.0" text="Nombre" />
             <TableColumn fx:id="colDescripcion" prefWidth="94.0" text="Descripcion" />
             <TableColumn fx:id="colMarca" prefWidth="74.0" text="Marcas" />
             <TableColumn fx:id="colModelo" prefWidth="74.0" text="Modelo" />
             <TableColumn fx:id="colPrecioVenta" prefWidth="93.0" text="PrecioVenta" />
-            <TableColumn fx:id="colPrecioCompra" prefWidth="104.0" text="PrecioCompra" />
-            <TableColumn fx:id="colExistencia" prefWidth="88.0" text="Existencia" />
             <TableColumn fx:id="colStockMinimo" prefWidth="100.0" text="StockMinimo" />
             <TableColumn fx:id="colCategoriaId" prefWidth="76.0" text="Categoria" />
             <TableColumn fx:id="colGarantiaMeses" prefWidth="79.0" text="Garantia" />
             <TableColumn fx:id="colColor" prefWidth="69.0" text="Color" />
             <TableColumn fx:id="colPeso" prefWidth="71.0" text="PesoKg" />
             <TableColumn fx:id="colDimensiones" prefWidth="92.0" text="Dimensiones" />
-            <TableColumn fx:id="colActivo" prefWidth="58.0" text="Activo" />
+            <TableColumn fx:id="colUrl" prefWidth="65.0" text="URL" />
             <TableColumn fx:id="colFechaCreacion" prefWidth="108.0" text="FechaCreacion" />
-            <TableColumn fx:id="colFechaActualizacion" minWidth="8.0" prefWidth="126.0" text="FechaActualizacion" />
          </columns>
       </TableView>
-      <TextField fx:id="txtBuscar" layoutX="38.0" layoutY="97.0" onAction="#btnBuscarPorNombre" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
-      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="34.0">
+      <TextField fx:id="txtBuscar" layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
+      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" onAction="#btnBuscarPorNombre" prefHeight="45.0" prefWidth="34.0">
          <graphic>
-            <ImageView fitHeight="25.0" fitWidth="25.0" onDragDetected="#btnBuscarPorNombre" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../Downloads/Buscar.png" />
                </image>
@@ -51,51 +47,43 @@
          </graphic>
       </Button>
       <TextField fx:id="txtID" layoutX="119.0" layoutY="457.0" promptText="Ingrese ID" />
-      <TextField fx:id="txtMarca" layoutX="401.0" layoutY="457.0" promptText="Ingrese la marca" />
-      <TextField fx:id="txtPrecioVenta" layoutX="402.0" layoutY="524.0" promptText="Ingrese Precio" />
-      <TextField fx:id="txtModelo" layoutX="402.0" layoutY="490.0" promptText="Ingrese Modelo" />
-      <TextField fx:id="txtDescripcion" layoutX="119.0" layoutY="559.0" promptText="Ingrese Descripcion" />
-      <TextField fx:id="txtNombre" layoutX="119.0" layoutY="523.0" promptText="Ingrese un Nombre" />
-      <TextField fx:id="txtCodigoBarras" layoutX="119.0" layoutY="490.0" promptText="Ingrese Codigo" />
-      <Label layoutX="46.0" layoutY="563.0" text="Descripcion" />
-      <Label layoutX="354.0" layoutY="494.0" text="Modelo" />
-      <Label layoutX="329.0" layoutY="527.0" text="Precio Venta" />
-      <Label layoutX="59.0" layoutY="528.0" text="Nombre" />
-      <Label layoutX="22.0" layoutY="494.0" text="Codigo de Barra" />
+      <TextField fx:id="txtMarca" layoutX="119.0" layoutY="557.0" promptText="Ingrese la marca" />
+      <TextField fx:id="txtPrecioVenta" layoutX="401.0" layoutY="490.0" promptText="Ingrese Precio" />
+      <TextField fx:id="txtModelo" layoutX="401.0" layoutY="457.0" promptText="Ingrese Modelo" />
+      <TextField fx:id="txtDescripcion" layoutX="119.0" layoutY="523.0" promptText="Ingrese Descripcion" />
+      <TextField fx:id="txtNombre" layoutX="119.0" layoutY="490.0" promptText="Ingrese un Nombre" />
+      <Label layoutX="50.0" layoutY="528.0" text="Descripcion" />
+      <Label layoutX="354.0" layoutY="461.0" text="Modelo" />
+      <Label layoutX="329.0" layoutY="494.0" text="Precio Venta" />
+      <Label layoutX="59.0" layoutY="496.0" text="Nombre" />
       <Label layoutX="81.0" layoutY="459.0" text="ID" />
-      <Label layoutX="356.0" layoutY="461.0" text="Marcas" />
-      <Button layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
+      <Label layoutX="68.0" layoutY="563.0" text="Marcas" />
+      <Button fx:id="btnReporte" layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
       <Button fx:id="btnEditar" layoutX="691.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarEdicionProducto" text="Editar" />
       <Button fx:id="btnEliminar" layoutX="598.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarCancelarEliminar" text="Eliminar" />
       <Button fx:id="btnNuevo" layoutX="509.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarNuevoProducto" text="Agregar" />
       <Button fx:id="btnSiguiente" layoutX="182.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnSiguienteAccion" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
       <Button fx:id="btnAnterior" layoutX="100.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnAnteriorAccion" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
-      <TextField fx:id="txtExistencia" layoutX="657.0" layoutY="457.0" promptText="Ingrese datos" />
-      <Label layoutX="595.0" layoutY="461.0" text="Existencia" />
-      <TextField fx:id="txtPrecioCompra" layoutX="401.0" layoutY="559.0" promptText="Ingrese Precio" />
-      <Label layoutX="317.0" layoutY="563.0" text="Precio Compra" />
-      <TextField fx:id="txtStockMinimo" layoutX="657.0" layoutY="490.0" promptText="Ingrese el minimo" />
-      <Label layoutX="572.0" layoutY="494.0" text="Stock Minimo" />
-      <TextField fx:id="txtGarantiaMeses" layoutX="657.0" layoutY="559.0" promptText="Ingrese la marca" />
-      <Label layoutX="596.0" layoutY="563.0" text="Garantias" />
-      <TextField fx:id="txtCategoriaId" layoutX="657.0" layoutY="523.0" promptText="Ingrese la Categoria" />
-      <Label layoutX="595.0" layoutY="527.0" text="Categoria" />
-      <TextField fx:id="txtColor" layoutX="900.0" layoutY="455.0" promptText="Ingrese color" />
-      <Label layoutX="855.0" layoutY="459.0" text="Color" />
-      <TextField fx:id="txtPeso" layoutX="900.0" layoutY="490.0" promptText="Ingrese el peso" />
-      <Label layoutX="844.0" layoutY="494.0" text="PesoKg" />
-      <TextField fx:id="txtDimensiones" layoutX="900.0" layoutY="524.0" promptText="Ingrese la marca" />
-      <Label layoutX="821.0" layoutY="528.0" text="Dimensiones" />
-      <TextField fx:id="txtActivo" layoutX="900.0" layoutY="559.0" promptText="Ingrese los datos" />
-      <Label layoutX="850.0" layoutY="563.0" text="Activos" />
-      <Label layoutX="1101.0" layoutY="474.0" text="Fecha Creacion" />
-      <Label layoutX="1101.0" layoutY="520.0" text="Fecha Actualizacion" />
+      <TextField fx:id="txtStockMinimo" layoutX="401.0" layoutY="524.0" promptText="Ingrese el minimo" />
+      <Label layoutX="326.0" layoutY="530.0" text="Stock Minimo" />
+      <TextField fx:id="txtGarantiaMeses" layoutX="651.0" layoutY="457.0" promptText="Ingrese la marca" />
+      <Label layoutX="596.0" layoutY="461.0" text="Garantias" />
+      <TextField fx:id="txtCategoriaId" layoutX="401.0" layoutY="559.0" promptText="Ingrese la Categoria" />
+      <Label layoutX="344.0" layoutY="565.0" text="Categoria" />
+      <TextField fx:id="txtColor" layoutX="651.0" layoutY="490.0" promptText="Ingrese color" />
+      <Label layoutX="617.0" layoutY="496.0" text="Color" />
+      <TextField fx:id="txtPeso" layoutX="651.0" layoutY="522.0" promptText="Ingrese el peso" />
+      <Label layoutX="606.0" layoutY="522.0" prefHeight="27.0" prefWidth="52.0" text="PesoKg" />
+      <TextField fx:id="txtDimensiones" layoutX="651.0" layoutY="552.0" promptText="Ingrese la marca" />
+      <Label layoutX="572.0" layoutY="558.0" text="Dimensiones" />
+      <Label layoutX="826.0" layoutY="459.0" text="Fecha Creacion" />
+      <DatePicker fx:id="dpFechaCreacion" layoutX="920.0" layoutY="455.0" />
+      <TextField fx:id="txtUrlImagen" layoutX="920.0" layoutY="490.0" promptText="Ingrese estado activo" />
+      <Label layoutX="850.0" layoutY="496.0" text="URL" />
       <Label layoutX="686.0" layoutY="28.0" text="Productos">
          <font>
             <Font size="64.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dpFechaCreacion" layoutX="1198.0" layoutY="470.0" />
-      <DatePicker fx:id="dpFechaActualizacion" layoutX="1219.0" layoutY="520.0" />
    </children>
 </AnchorPane>

@@ -9,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="931.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.EspecificacionesController">
     <stylesheets>
@@ -16,18 +17,17 @@
     </stylesheets>
    <children>
       <Button layoutX="21.0" layoutY="23.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
-      <TableView layoutX="38.0" layoutY="137.0" prefHeight="259.0" prefWidth="834.0">
+      <TableView fx:id="tablaEspecificaciones" layoutX="38.0" layoutY="137.0" prefHeight="259.0" prefWidth="842.0">
          <columns>
-            <TableColumn prefWidth="140.0" text="ID" />
-            <TableColumn prefWidth="154.0" text="ID Producto" />
-            <TableColumn minWidth="0.0" prefWidth="135.0" text="Caracteristica" />
-            <TableColumn prefWidth="140.0" text="Valor" />
-            <TableColumn prefWidth="108.0" text="Unidad" />
-            <TableColumn prefWidth="156.0" text="Activo" />
+            <TableColumn fx:id="colId" prefWidth="140.0" text="ID" />
+            <TableColumn fx:id="colProductoId" prefWidth="177.0" text="ID Producto" />
+            <TableColumn fx:id="colCaracteristica" minWidth="0.0" prefWidth="138.0" text="Caracteristica" />
+            <TableColumn fx:id="colValor" prefWidth="166.0" text="Valor" />
+            <TableColumn fx:id="colUnidad" prefWidth="217.60001220703123" text="Unidad" />
          </columns>
       </TableView>
-      <TextField layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
-      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="34.0">
+      <TextField fx:id="txtBuscar" layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Característica" />
+      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="34.0" onAction="#btnBuscarPorCaracteristica">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -36,22 +36,26 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField layoutX="194.0" layoutY="457.0" promptText="Ingrese ID" />
-      <TextField layoutX="524.0" layoutY="457.0" promptText="Ingrese Caracteristica" />
-      <TextField layoutX="194.0" layoutY="546.0" promptText="Ingrese Unidad" />
-      <TextField layoutX="524.0" layoutY="498.0" promptText="Ingrese un Valor" />
-      <TextField layoutX="194.0" layoutY="499.0" promptText="Ingrese ID de Producto" />
-      <Label layoutX="474.0" layoutY="503.0" text="Valor" />
-      <Label layoutX="144.0" layoutY="550.0" text="Unidad" />
+      <TextField fx:id="txtID" layoutX="194.0" layoutY="457.0" promptText="Ingrese ID" />
+      <TextField fx:id="txtCaracteristica" layoutX="194.0" layoutY="540.0" promptText="Ingrese Caracteristica" />
+      <TextField fx:id="txtUnidad" layoutX="475.0" layoutY="513.0" promptText="Ingrese Unidad" />
+      <TextField fx:id="txtValor" layoutX="475.0" layoutY="463.0" promptText="Ingrese un Valor" />
+      <TextField fx:id="txtProductoId" layoutX="194.0" layoutY="499.0" promptText="Ingrese ID de Producto" />
+      <Label layoutX="427.0" layoutY="463.0" text="Valor" />
+      <Label layoutX="422.0" layoutY="519.0" text="Unidad" />
       <Label layoutX="119.0" layoutY="503.0" text="ID Producto" />
       <Label layoutX="157.0" layoutY="461.0" text="ID" />
-      <Label layoutX="438.0" layoutY="461.0" text="Caracteristica" />
-      <Button layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
-      <Button layoutX="691.0" layoutY="408.0" mnemonicParsing="false" text="Editar" />
-      <Button layoutX="598.0" layoutY="408.0" mnemonicParsing="false" text="Eliminar" />
-      <Button layoutX="509.0" layoutY="408.0" mnemonicParsing="false" text="Agregar" />
-      <Button layoutX="182.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
-      <Button layoutX="100.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
-      <Label layoutX="498.0" layoutY="48.0" text="Espesificaciones Tecnicas" />
+      <Label layoutX="116.0" layoutY="545.0" text="Caracteristica" />
+      <Button fx:id="btnReporte" layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
+      <Button fx:id="btnEditar" layoutX="691.0" layoutY="408.0" mnemonicParsing="false" text="Editar" onAction="#cambiarEdicionEspecificacion" />
+      <Button fx:id="btnEliminar" layoutX="598.0" layoutY="408.0" mnemonicParsing="false" text="Eliminar" onAction="#cambiarCancelarEliminar" />
+      <Button fx:id="btnNuevo" layoutX="509.0" layoutY="408.0" mnemonicParsing="false" text="Agregar" onAction="#cambiarNuevoEspecificacion" />
+      <Button fx:id="btnSiguiente" layoutX="182.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" onAction="#btnSiguienteAccion" />
+      <Button fx:id="btnAnterior" layoutX="100.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" onAction="#btnAnteriorAccion" />
+      <Label layoutX="498.0" layoutY="48.0" text="Especificaciones Tecnicas">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

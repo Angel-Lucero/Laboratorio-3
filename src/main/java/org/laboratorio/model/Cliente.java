@@ -14,20 +14,16 @@ public class Cliente {
     private String telefono;        
     private String email;        
     private String direccion;        
-    private String rfc;        
     private LocalDate fechaRegistro;        
-    private String activo;       
 
-    public Cliente(int idCliente, String nombre, String apellidos, String telefono, String email, String direccion, String rfc, LocalDate fechaRegistro, String activo) {
+    public Cliente(int idCliente, String nombre, String apellidos, String telefono, String email, String direccion, LocalDate fechaRegistro) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.telefono = telefono;
         this.email = email;
         this.direccion = direccion;
-        this.rfc = rfc;
         this.fechaRegistro = fechaRegistro;
-        this.activo = activo;
     }
 
     public int getIdCliente() {
@@ -78,29 +74,11 @@ public class Cliente {
         this.direccion = direccion;
     }
 
-    public String getRfc() {
-        return rfc;
-    }
-
-    public void setRfc(String rfc) {
-        this.rfc = rfc;
-    }
-
     public LocalDate getFechaRegistro() {
         return fechaRegistro;
     }
 
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
-    }
-
-    public String getActivo() {
-        return activo;
-    }
-
-    public void setActivo(String activo) {
-        this.activo = activo;
-    }
-
-    
+    } 
 }

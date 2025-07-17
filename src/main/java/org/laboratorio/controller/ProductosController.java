@@ -1,10 +1,8 @@
-
 package org.laboratorio.controller;
 
 import java.net.URL;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -17,11 +15,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.DatePicker;
 import org.laboratorio.database.Conexion;
 import org.laboratorio.model.Producto;
 import org.laboratorio.system.Main;
@@ -42,16 +40,15 @@ public class ProductosController implements Initializable {
     
     @FXML private Button btnAnterior, btnSiguiente, btnNuevo, btnEditar, btnEliminar, btnReporte;
     @FXML private TableView<Producto> tablaProductos;
-    @FXML private TableColumn colId, colCodigoBarras, colNombre, colDescripcion, colMarca, 
-            colModelo, colPrecioVenta, colPrecioCompra, colExistencia, colStockMinimo,
-            colCategoriaId, colGarantiaMeses, colColor, colPeso, colDimensiones, 
-            colActivo, colFechaCreacion, colFechaActualizacion;
-    @FXML private TextField txtID, txtCodigoBarras, txtNombre, txtDescripcion, txtMarca, 
-            txtModelo, txtPrecioVenta, txtPrecioCompra, txtExistencia, txtStockMinimo,
-            txtCategoriaId, txtGarantiaMeses, txtColor, txtPeso, txtDimensiones, 
-            txtActivo, txtBuscar;
-    @FXML private DatePicker dpFechaCreacion, dpFechaActualizacion;
-    
+    @FXML private TableColumn colId, colNombre, colDescripcion, colMarca, 
+            colModelo, colPrecioVenta, colStockMinimo, colCategoriaId, 
+            colGarantiaMeses, colColor, colPeso, colDimensiones, 
+            colActivo, colFechaCreacion;
+    @FXML private TextField txtID, txtNombre, txtDescripcion, txtMarca, 
+        txtModelo, txtPrecioVenta, txtStockMinimo, txtCategoriaId, 
+        txtGarantiaMeses, txtColor, txtPeso, txtDimensiones, txtUrlImagen, txtBuscar;
+    @FXML private DatePicker dpFechaCreacion;
+
     public void setPrincipal(Main principal) {
         this.principal = principal;
     }
@@ -61,28 +58,23 @@ public class ProductosController implements Initializable {
         setFormatoColumnaModelo();
         cargarDatos();
         tablaProductos.setOnMouseClicked(eventHandler -> getProductoTextField());
-        deshabilitarCampos();
-    }    
+        deshabilitarCampos(); 
+    }  
     
     public void setFormatoColumnaModelo(){
-        colId.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("IdProducto"));
-        colCodigoBarras.setCellValueFactory(new PropertyValueFactory<Producto, String>("CodigoBarras"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<Producto, String>("Nombre"));
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<Producto, String>("Descripcion"));
-        colMarca.setCellValueFactory(new PropertyValueFactory<Producto, String>("Marca"));
-        colModelo.setCellValueFactory(new PropertyValueFactory<Producto, String>("Modelo"));
-        colPrecioVenta.setCellValueFactory(new PropertyValueFactory<Producto, Float>("PrecioVenta"));
-        colPrecioCompra.setCellValueFactory(new PropertyValueFactory<Producto, Float>("precioCompra"));
-        colExistencia.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("Existencia"));
-        colStockMinimo.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("StockMinimo"));
-        colCategoriaId.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("CategoriaId"));
-        colGarantiaMeses.setCellValueFactory(new PropertyValueFactory<Producto, Integer>("GarantiaMeses"));
-        colColor.setCellValueFactory(new PropertyValueFactory<Producto, String>("Color"));
-        colPeso.setCellValueFactory(new PropertyValueFactory<Producto, Float>("Peso"));
-        colDimensiones.setCellValueFactory(new PropertyValueFactory<Producto, String>("Dimensiones"));
-        colActivo.setCellValueFactory(new PropertyValueFactory<Producto, String>("Activo"));
-        colFechaCreacion.setCellValueFactory(new PropertyValueFactory<Producto, Date>("FechaCreacion"));
-        colFechaActualizacion.setCellValueFactory(new PropertyValueFactory<Producto, Date>("FechaActualizacion"));
+        colId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
+        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+        colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));        
+        colModelo.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+        colPrecioVenta.setCellValueFactory(new PropertyValueFactory<>("precioVenta"));
+        colStockMinimo.setCellValueFactory(new PropertyValueFactory<>("stockMinimo"));
+        colCategoriaId.setCellValueFactory(new PropertyValueFactory<>("categoriaId"));
+        colGarantiaMeses.setCellValueFactory(new PropertyValueFactory<>("garantiaMeses"));
+        colColor.setCellValueFactory(new PropertyValueFactory<>("color"));
+        colPeso.setCellValueFactory(new PropertyValueFactory<>("peso"));
+        colDimensiones.setCellValueFactory(new PropertyValueFactory<>("dimensiones"));
+        colFechaCreacion.setCellValueFactory(new PropertyValueFactory<>("fechaCreacion"));
     }
     
     public void cargarDatos(){
@@ -97,23 +89,19 @@ public class ProductosController implements Initializable {
         Producto productoSeleccionado = tablaProductos.getSelectionModel().getSelectedItem();
         if (productoSeleccionado != null) {
             txtID.setText(String.valueOf(productoSeleccionado.getIdProducto()));
-            txtCodigoBarras.setText(productoSeleccionado.getCodigoBarras());
             txtNombre.setText(productoSeleccionado.getNombre());
             txtDescripcion.setText(productoSeleccionado.getDescripcion());
             txtMarca.setText(productoSeleccionado.getMarca());
             txtModelo.setText(productoSeleccionado.getModelo());
             txtPrecioVenta.setText(String.valueOf(productoSeleccionado.getPrecioVenta()));
-            txtPrecioCompra.setText(String.valueOf(productoSeleccionado.getPrecioCompra()));
-            txtExistencia.setText(String.valueOf(productoSeleccionado.getExistencia()));
             txtStockMinimo.setText(String.valueOf(productoSeleccionado.getStockMinimo()));
             txtCategoriaId.setText(String.valueOf(productoSeleccionado.getCategoriaId()));
             txtGarantiaMeses.setText(String.valueOf(productoSeleccionado.getGarantiaMeses()));
             txtColor.setText(productoSeleccionado.getColor());
             txtPeso.setText(String.valueOf(productoSeleccionado.getPeso()));
             txtDimensiones.setText(productoSeleccionado.getDimensiones());
-            txtActivo.setText(productoSeleccionado.getActivo());
+            txtUrlImagen.setText(productoSeleccionado.getUrlImagen());
             dpFechaCreacion.setValue(productoSeleccionado.getFechaCreacion());
-            dpFechaActualizacion.setValue(productoSeleccionado.getFechaActualizacion());
         }
     }
     
@@ -125,30 +113,21 @@ public class ProductosController implements Initializable {
             CallableStatement enunciado = conexionv.prepareCall(sql);
             ResultSet resultado = enunciado.executeQuery();
             while (resultado.next()){
-                LocalDate fechaCreacion = resultado.getDate(17) != null ? 
-                resultado.getDate(17).toLocalDate() : null;
-            LocalDate fechaActualizacion = resultado.getDate(18) != null ? 
-                resultado.getDate(18).toLocalDate() : null;
-            
                 productos.add(new Producto(
                     resultado.getInt(1),
                     resultado.getString(2),
                     resultado.getString(3),
                     resultado.getString(4),
                     resultado.getString(5),
-                    resultado.getString(6),
-                    resultado.getFloat(7),
-                    resultado.getFloat(8),
+                    resultado.getFloat(6),
+                    resultado.getInt(7),
+                    resultado.getInt(8),
                     resultado.getInt(9),
-                    resultado.getInt(10),
-                    resultado.getInt(11),
-                    resultado.getInt(12),
+                    resultado.getString(10),
+                    resultado.getFloat(11),
+                    resultado.getString(12),
                     resultado.getString(13),
-                    resultado.getFloat(14),
-                    resultado.getString(15),
-                    resultado.getString(16),
-                    fechaCreacion,
-                    fechaActualizacion
+                    resultado.getDate(14).toLocalDate()
                 ));
             }
         } catch (SQLException e) {
@@ -159,57 +138,45 @@ public class ProductosController implements Initializable {
     
     private Producto getModeloProducto(){
         int idProducto = txtID.getText().isEmpty() ? 0 : Integer.parseInt(txtID.getText());
-        String codigoBarras = txtCodigoBarras.getText();
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
         String marca = txtMarca.getText();
         String modelo = txtModelo.getText();
         float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
-        float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
-        int existencia = Integer.parseInt(txtExistencia.getText());
         int stockMinimo = Integer.parseInt(txtStockMinimo.getText());
         int categoriaId = Integer.parseInt(txtCategoriaId.getText());
         int garantiaMeses = Integer.parseInt(txtGarantiaMeses.getText());
         String color = txtColor.getText();
         float peso = Float.parseFloat(txtPeso.getText());
         String dimensiones = txtDimensiones.getText();
-        String activo = txtActivo.getText();
+        String urlImagen = txtUrlImagen.getText();
         LocalDate fechaCreacion = dpFechaCreacion.getValue();
-        LocalDate fechaActualizacion = dpFechaActualizacion.getValue();
-        
+
         return new Producto(
-            idProducto, codigoBarras, nombre, descripcion, marca, modelo,
-            precioVenta, precioCompra, existencia, stockMinimo, categoriaId,
-            garantiaMeses, color, peso, dimensiones, activo, fechaCreacion,
-            fechaActualizacion
+            idProducto, nombre, descripcion, marca, modelo, precioVenta,
+            stockMinimo, categoriaId, garantiaMeses, color, peso, 
+            dimensiones, urlImagen, fechaCreacion
         );
     }
     
     public void agregarProducto(){
         modeloProducto = getModeloProducto();
-        
+
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                .prepareCall("{call sp_AgregarProducto(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
-            enunciado.setString(1, modeloProducto.getCodigoBarras());
-            enunciado.setString(2, modeloProducto.getNombre());
-            enunciado.setString(3, modeloProducto.getDescripcion());
-            enunciado.setString(4, modeloProducto.getMarca());
-            enunciado.setString(5, modeloProducto.getModelo());
-            enunciado.setFloat(6, modeloProducto.getPrecioVenta());
-            enunciado.setFloat(7, modeloProducto.getPrecioCompra());
-            enunciado.setInt(8, modeloProducto.getExistencia());
-            enunciado.setInt(9, modeloProducto.getStockMinimo());
-            enunciado.setInt(10, modeloProducto.getCategoriaId());
-            enunciado.setInt(11, modeloProducto.getGarantiaMeses());
-            enunciado.setString(12, modeloProducto.getColor());
-            enunciado.setFloat(13, modeloProducto.getPeso());
-            enunciado.setString(14, modeloProducto.getDimensiones());
-            enunciado.setString(15, modeloProducto.getActivo());
-            enunciado.setDate(16, modeloProducto.getFechaCreacion() != null ? 
-                 java.sql.Date.valueOf(modeloProducto.getFechaCreacion()) : null);
-            enunciado.setDate(17, modeloProducto.getFechaActualizacion() != null ? 
-                java.sql.Date.valueOf(modeloProducto.getFechaActualizacion()) : null);
+                .prepareCall("{call sp_AgregarProducto(?,?,?,?,?,?,?,?,?,?,?,?)}");
+            enunciado.setString(1, modeloProducto.getNombre());
+            enunciado.setString(2, modeloProducto.getDescripcion());
+            enunciado.setString(3, modeloProducto.getMarca());
+            enunciado.setString(4, modeloProducto.getModelo());
+            enunciado.setFloat(5, modeloProducto.getPrecioVenta());
+            enunciado.setInt(6, modeloProducto.getStockMinimo());
+            enunciado.setInt(7, modeloProducto.getCategoriaId());
+            enunciado.setInt(8, modeloProducto.getGarantiaMeses());
+            enunciado.setString(9, modeloProducto.getColor());
+            enunciado.setFloat(10, modeloProducto.getPeso());
+            enunciado.setString(11, modeloProducto.getDimensiones());
+            enunciado.setString(12, modeloProducto.getUrlImagen());
             enunciado.execute();
             cargarDatos();
         } catch (SQLException ex) {
@@ -222,27 +189,20 @@ public class ProductosController implements Initializable {
         modeloProducto = getModeloProducto();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                .prepareCall("{call sp_ActualizarProducto(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+                .prepareCall("{call sp_ActualizarProducto(?,?,?,?,?,?,?,?,?,?,?,?,?)}");
             enunciado.setInt(1, modeloProducto.getIdProducto());
-            enunciado.setString(2, modeloProducto.getCodigoBarras());
-            enunciado.setString(3, modeloProducto.getNombre());
-            enunciado.setString(4, modeloProducto.getDescripcion());
-            enunciado.setString(5, modeloProducto.getMarca());
-            enunciado.setString(6, modeloProducto.getModelo());
-            enunciado.setFloat(7, modeloProducto.getPrecioVenta());
-            enunciado.setFloat(8, modeloProducto.getPrecioCompra());
-            enunciado.setInt(9, modeloProducto.getExistencia());
-            enunciado.setInt(10, modeloProducto.getStockMinimo());
-            enunciado.setInt(11, modeloProducto.getCategoriaId());
-            enunciado.setInt(12, modeloProducto.getGarantiaMeses());
-            enunciado.setString(13, modeloProducto.getColor());
-            enunciado.setFloat(14, modeloProducto.getPeso());
-            enunciado.setString(15, modeloProducto.getDimensiones());
-            enunciado.setString(16, modeloProducto.getActivo());
-            enunciado.setDate(16, modeloProducto.getFechaCreacion() != null ? 
-                java.sql.Date.valueOf(modeloProducto.getFechaCreacion()) : null);
-            enunciado.setDate(17, modeloProducto.getFechaActualizacion() != null ? 
-                java.sql.Date.valueOf(modeloProducto.getFechaActualizacion()) : null);
+            enunciado.setString(2, modeloProducto.getNombre());
+            enunciado.setString(3, modeloProducto.getDescripcion());
+            enunciado.setString(4, modeloProducto.getMarca());
+            enunciado.setString(5, modeloProducto.getModelo());
+            enunciado.setFloat(6, modeloProducto.getPrecioVenta());
+            enunciado.setInt(7, modeloProducto.getStockMinimo());
+            enunciado.setInt(8, modeloProducto.getCategoriaId());
+            enunciado.setInt(9, modeloProducto.getGarantiaMeses());
+            enunciado.setString(10, modeloProducto.getColor());
+            enunciado.setFloat(11, modeloProducto.getPeso());
+            enunciado.setString(12, modeloProducto.getDimensiones());
+            enunciado.setString(13, modeloProducto.getUrlImagen());
             enunciado.execute();
             cargarDatos();
         } catch (SQLException e) {
@@ -265,48 +225,24 @@ public class ProductosController implements Initializable {
     }
     
     public void limpiarTexto(){
-        txtID.clear();
-        txtCodigoBarras.clear();
-        txtNombre.clear();
-        txtDescripcion.clear();
-        txtMarca.clear();
-        txtModelo.clear();
-        txtPrecioVenta.clear();
-        txtPrecioCompra.clear();
-        txtExistencia.clear();
-        txtStockMinimo.clear();
-        txtCategoriaId.clear();
-        txtGarantiaMeses.clear();
-        txtColor.clear();
-        txtPeso.clear();
-        txtDimensiones.clear();
-        txtActivo.clear();
-        dpFechaCreacion.setValue(null);
-        dpFechaActualizacion.setValue(null);
-    }
-    
-    private void deshabilitarCampos() {
-        txtCodigoBarras.setDisable(true);
-        txtNombre.setDisable(true);
-        txtDescripcion.setDisable(true);
-        txtMarca.setDisable(true);
-        txtModelo.setDisable(true);
-        txtPrecioVenta.setDisable(true);
-        txtPrecioCompra.setDisable(true);
-        txtExistencia.setDisable(true);
-        txtStockMinimo.setDisable(true);
-        txtCategoriaId.setDisable(true);
-        txtGarantiaMeses.setDisable(true);
-        txtColor.setDisable(true);
-        txtPeso.setDisable(true);
-        txtDimensiones.setDisable(true);
-        txtActivo.setDisable(true);
-        dpFechaCreacion.setDisable(true);
-        dpFechaActualizacion.setDisable(true);
+       txtID.clear();
+       txtNombre.clear();
+       txtDescripcion.clear();
+       txtMarca.clear();
+       txtModelo.clear();
+       txtPrecioVenta.clear();
+       txtStockMinimo.clear();
+       txtCategoriaId.clear();
+       txtGarantiaMeses.clear();
+       txtColor.clear();
+       txtPeso.clear();
+       txtDimensiones.clear();
+       txtUrlImagen.clear();
+       dpFechaCreacion.setValue(LocalDate.now());
     }
     
     @FXML
-    private void cambiarNuevoProducto(){    
+    private void cambiarNuevoProducto() {    
         if (cancelando) return; 
 
         switch (accion) {
@@ -314,32 +250,36 @@ public class ProductosController implements Initializable {
                 cambiarGuardarEditar();
                 accion = Acciones.AGREGAR;
                 limpiarTexto();
-                habilitarDeshabilitarNodo();
+                habilitarCampos(); 
+                deshabilitarNavegacion(); 
                 break;
             case AGREGAR:
                 if(validarFormulario()){
-                    System.out.println("Accion de agregar");
                     agregarProducto();
                     cambiarOriginal();
-                    habilitarDeshabilitarNodo();
+                    deshabilitarCampos(); 
+                    habilitarNavegacion(); 
                 }
                 break;
             case EDITAR:
                 if (validarFormulario()) {
-                    System.out.println("Accion del metodo editar");
                     editarProducto();
                     cambiarOriginal();
-                    habilitarDeshabilitarNodo();
+                    deshabilitarCampos(); 
+                    habilitarNavegacion(); 
                 }
                 break;
         }
     }
-    
+
     @FXML
-    private void cambiarEdicionProducto(){
-        cambiarGuardarEditar();
-        accion = Acciones.EDITAR;
-        habilitarDeshabilitarNodo();
+    private void cambiarEdicionProducto() {
+        if (accion == Acciones.NINGUNA) {
+            cambiarGuardarEditar();
+            accion = Acciones.EDITAR;
+            habilitarCampos(); 
+            deshabilitarNavegacion(); 
+        }
     }
     
     @FXML
@@ -360,6 +300,58 @@ public class ProductosController implements Initializable {
 
             cancelando = false;
         }    
+    }
+    
+    private void habilitarCampos() {
+        txtNombre.setDisable(false);
+        txtDescripcion.setDisable(false);
+        txtMarca.setDisable(false);
+        txtModelo.setDisable(false);
+        txtPrecioVenta.setDisable(false);
+        txtStockMinimo.setDisable(false);
+        txtCategoriaId.setDisable(false);
+        txtGarantiaMeses.setDisable(false);
+        txtColor.setDisable(false);
+        txtPeso.setDisable(false);
+        txtDimensiones.setDisable(false);
+        txtUrlImagen.setDisable(false);
+        dpFechaCreacion.setDisable(false);
+
+        btnSiguiente.setDisable(true);
+        btnAnterior.setDisable(true);
+        tablaProductos.setDisable(true);
+    }
+
+    private void deshabilitarCampos() {
+        txtNombre.setDisable(true);
+        txtDescripcion.setDisable(true);
+        txtMarca.setDisable(true);
+        txtModelo.setDisable(true);
+        txtPrecioVenta.setDisable(true);
+        txtStockMinimo.setDisable(true);
+        txtCategoriaId.setDisable(true);
+        txtGarantiaMeses.setDisable(true);
+        txtColor.setDisable(true);
+        txtPeso.setDisable(true);
+        txtDimensiones.setDisable(true);
+        txtUrlImagen.setDisable(true);
+        dpFechaCreacion.setDisable(true);
+
+        btnSiguiente.setDisable(false);
+        btnAnterior.setDisable(false);
+        tablaProductos.setDisable(false);
+    }
+
+    private void deshabilitarNavegacion() {
+        btnSiguiente.setDisable(true);
+        btnAnterior.setDisable(true);
+        tablaProductos.setDisable(true);
+    }
+
+    private void habilitarNavegacion() {
+        btnSiguiente.setDisable(false);
+        btnAnterior.setDisable(false);
+        tablaProductos.setDisable(false);
     }
     
     @FXML
@@ -394,23 +386,19 @@ public class ProductosController implements Initializable {
     }
     
     private void cambiarEstado(boolean estado) {
-        txtCodigoBarras.setDisable(estado);
         txtNombre.setDisable(estado);
         txtDescripcion.setDisable(estado);
         txtMarca.setDisable(estado);
         txtModelo.setDisable(estado);
         txtPrecioVenta.setDisable(estado);
-        txtPrecioCompra.setDisable(estado);
-        txtExistencia.setDisable(estado);
         txtStockMinimo.setDisable(estado);
         txtCategoriaId.setDisable(estado);
         txtGarantiaMeses.setDisable(estado);
         txtColor.setDisable(estado);
         txtPeso.setDisable(estado);
         txtDimensiones.setDisable(estado);
-        txtActivo.setDisable(estado);
+        txtUrlImagen.setDisable(estado);
         dpFechaCreacion.setDisable(estado);
-        dpFechaActualizacion.setDisable(estado);
     }
     
     private void habilitarDeshabilitarNodo(){
@@ -439,24 +427,19 @@ public class ProductosController implements Initializable {
     private boolean validarFormulario() {
         if(cancelando) return true; 
         
-        // Validar campos obligatorios
-        if (txtCodigoBarras.getText().isEmpty() || txtNombre.getText().isEmpty() || 
-            txtPrecioVenta.getText().isEmpty() || txtPrecioCompra.getText().isEmpty() || 
-            txtExistencia.getText().isEmpty() || txtStockMinimo.getText().isEmpty() || 
-            txtCategoriaId.getText().isEmpty() || txtActivo.getText().isEmpty()) {
+        if (txtNombre.getText().isEmpty() || txtPrecioVenta.getText().isEmpty() || 
+            txtStockMinimo.getText().isEmpty() || txtCategoriaId.getText().isEmpty() || 
+            txtUrlImagen.getText().isEmpty() || dpFechaCreacion.getValue() == null) {
             mostrarAlerta("Campos vacíos", "Por favor, complete todos los campos obligatorios.");
             return false;
         }
         
-        // Validar que los valores numéricos sean correctos
         try {
             float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
-            float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
-            int existencia = Integer.parseInt(txtExistencia.getText());
             int stockMinimo = Integer.parseInt(txtStockMinimo.getText());
             int categoriaId = Integer.parseInt(txtCategoriaId.getText());
             
-            if (precioVenta <= 0 || precioCompra <= 0 || existencia < 0 || stockMinimo < 0 || categoriaId <= 0) {
+            if (precioVenta <= 0 || stockMinimo < 0 || categoriaId <= 0) {
                 mostrarAlerta("Valores inválidos", "Los valores numéricos deben ser positivos.");
                 return false;
             }
