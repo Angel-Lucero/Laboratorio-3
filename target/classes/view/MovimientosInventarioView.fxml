@@ -21,13 +21,12 @@
          <columns>
             <TableColumn prefWidth="106.0" text="ID Movimiento" />
             <TableColumn prefWidth="81.0" text="ID Producto" />
-            <TableColumn prefWidth="114.0" text="Tipo Movimiento" />
-            <TableColumn prefWidth="88.0" text="Cantidad" />
-            <TableColumn prefWidth="113.0" text="Fecha Movimiento" />
-            <TableColumn prefWidth="106.0" text="ID Venta" />
-            <TableColumn prefWidth="94.0" text="ID Proveedor" />
-            <TableColumn prefWidth="96.0" text="ID Usuario" />
-            <TableColumn prefWidth="81.0" text="Comentario" />
+            <TableColumn prefWidth="130.0" text="Tipo Movimiento" />
+            <TableColumn prefWidth="91.0" text="Cantidad" />
+            <TableColumn prefWidth="145.0" text="Fecha Movimiento" />
+            <TableColumn prefWidth="99.0" text="ID Venta" />
+            <TableColumn prefWidth="104.0" text="ID Proveedor" />
+            <TableColumn prefWidth="119.0" text="Comentario" />
          </columns>
       </TableView>
       <TextField layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
@@ -41,14 +40,12 @@
          </graphic>
       </Button>
       <TextField layoutX="119.0" layoutY="457.0" promptText="Ingrese ID" />
-      <TextField layoutX="402.0" layoutY="559.0" promptText="Ingrese ID" />
       <TextField layoutX="402.0" layoutY="524.0" promptText="Ingrese ID" />
       <TextField layoutX="402.0" layoutY="490.0" promptText="Ingrese ID" />
       <TextField layoutX="119.0" layoutY="559.0" promptText="Ingrese su Cantidad" />
       <TextField layoutX="119.0" layoutY="523.0" promptText="Ingrese datos" />
       <TextField layoutX="119.0" layoutY="490.0" promptText="Ingrese ID" />
       <Label layoutX="56.0" layoutY="563.0" text="Cantidad" />
-      <Label layoutX="334.0" layoutY="563.0" text="ID Usuario" />
       <Label layoutX="339.0" layoutY="493.0" text="ID Venta" />
       <Label layoutX="319.0" layoutY="527.0" text="ID Proveedor" />
       <Label layoutX="23.0" layoutY="528.0" text="Tipo Movimiento" />
@@ -62,7 +59,7 @@
       <Button layoutX="182.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
       <Button layoutX="100.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
       <DatePicker layoutX="402.0" layoutY="457.0" prefHeight="25.0" prefWidth="235.0" promptText="Eliga la Fecha" />
-      <TextField layoutX="666.0" layoutY="498.0" promptText="Ingrese su comentario" />
-      <Label layoutX="598.0" layoutY="502.0" text="Comentario" />
+      <TextField layoutX="403.0" layoutY="559.0" promptText="Ingrese su comentario" />
+      <Label layoutX="323.0" layoutY="565.0" text="Comentario" />
    </children>
 </AnchorPane>

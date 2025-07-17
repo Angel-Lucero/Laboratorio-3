@@ -20,15 +20,13 @@
       <Button layoutX="28.0" layoutY="25.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
       <TableView layoutX="26.0" layoutY="126.0" prefHeight="259.0" prefWidth="880.0">
          <columns>
-            <TableColumn prefWidth="106.0" text="ID" />
-            <TableColumn prefWidth="81.0" text="Nombre" />
-            <TableColumn prefWidth="83.0" text="Apellido" />
-            <TableColumn prefWidth="92.0" text="Telefono" />
-            <TableColumn prefWidth="106.0" text="Email" />
-            <TableColumn prefWidth="106.0" text="Direccion" />
-            <TableColumn prefWidth="105.0" text="RFC" />
-            <TableColumn prefWidth="114.0" text="Fecha Registro" />
-            <TableColumn prefWidth="86.0" text="Activo" />
+            <TableColumn prefWidth="118.0" text="ID" />
+            <TableColumn prefWidth="92.0" text="Nombre" />
+            <TableColumn prefWidth="128.0" text="Apellido" />
+            <TableColumn prefWidth="101.0" text="Telefono" />
+            <TableColumn prefWidth="112.0" text="Email" />
+            <TableColumn prefWidth="122.0" text="Direccion" />
+            <TableColumn prefWidth="130.0" text="Fecha Registro" />
          </columns>
       </TableView>
       <TextField layoutX="28.0" layoutY="87.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
@@ -36,22 +34,20 @@
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Downloads/Buscar.png" />
+                  <Image url="@image/Buscar.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
       <TextField layoutX="109.0" layoutY="447.0" promptText="Ingrese ID" />
       <TextField layoutX="391.0" layoutY="447.0" promptText="Ingrese un Email" />
-      <TextField layoutX="392.0" layoutY="514.0" promptText="Ingrese RFC" />
       <TextField layoutX="392.0" layoutY="480.0" promptText="Ingrese un Direccion" />
       <TextField layoutX="109.0" layoutY="549.0" promptText="Ingrese un Telefono" />
       <TextField layoutX="109.0" layoutY="513.0" promptText="Ingrese un Apellido" />
       <TextField layoutX="109.0" layoutY="480.0" promptText="Ingrese un Nombre" />
       <Label layoutX="46.0" layoutY="553.0" text="Telefono" />
-      <Label layoutX="301.0" layoutY="553.0" text="Fecha Registro" />
+      <Label layoutX="301.0" layoutY="526.0" text="Fecha Registro" />
       <Label layoutX="329.0" layoutY="483.0" text="Direccion" />
-      <Label layoutX="350.0" layoutY="517.0" text="RFC" />
       <Label layoutX="49.0" layoutY="518.0" text="Apellido" />
       <Label layoutX="49.0" layoutY="483.0" text="Nombre" />
       <Label layoutX="71.0" layoutY="449.0" text="ID" />
@@ -62,7 +58,7 @@
       <Button layoutX="499.0" layoutY="398.0" mnemonicParsing="false" text="Agregar" />
       <Button layoutX="172.0" layoutY="398.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
       <Button layoutX="90.0" layoutY="398.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
-      <DatePicker layoutX="392.0" layoutY="549.0" prefHeight="25.0" prefWidth="235.0" promptText="Eliga la Fecha" />
+      <DatePicker layoutX="393.0" layoutY="519.0" prefHeight="25.0" prefWidth="235.0" promptText="Eliga la Fecha" />
       <Label layoutX="510.0" layoutY="41.0" text="Clientes">
          <font>
             <Font size="48.0" />

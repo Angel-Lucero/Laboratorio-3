@@ -11,32 +11,28 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="1622.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.ProductosController">
+<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="1407.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.ProductosController">
     <stylesheets>
         <URL value="@Productos_View.css" />
     </stylesheets>
    <children>
       <Button layoutX="29.0" layoutY="28.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
-      <TableView layoutX="22.0" layoutY="137.0" prefHeight="259.0" prefWidth="1556.0">
+      <TableView layoutX="22.0" layoutY="137.0" prefHeight="259.0" prefWidth="1315.0">
          <columns>
             <TableColumn prefWidth="65.0" text="ID" />
-            <TableColumn prefWidth="106.0" text="Codigo Barras" />
             <TableColumn prefWidth="66.0" text="Nombre" />
             <TableColumn prefWidth="94.0" text="Descripcion" />
             <TableColumn prefWidth="74.0" text="Marcas" />
             <TableColumn prefWidth="74.0" text="Modelo" />
             <TableColumn prefWidth="93.0" text="PrecioVenta" />
-            <TableColumn prefWidth="104.0" text="PrecioCompra" />
-            <TableColumn prefWidth="88.0" text="Existencia" />
             <TableColumn prefWidth="100.0" text="StockMinimo" />
             <TableColumn prefWidth="76.0" text="Categoria" />
             <TableColumn prefWidth="79.0" text="Garantia" />
             <TableColumn prefWidth="69.0" text="Color" />
             <TableColumn prefWidth="71.0" text="PesoKg" />
             <TableColumn prefWidth="92.0" text="Dimensiones" />
-            <TableColumn prefWidth="58.0" text="Activo" />
+            <TableColumn prefWidth="108.0" text="urlImagen" />
             <TableColumn prefWidth="108.0" text="FechaCreacion" />
-            <TableColumn minWidth="8.0" prefWidth="126.0" text="FechaActualizacion" />
          </columns>
       </TableView>
       <TextField layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
@@ -50,47 +46,39 @@
          </graphic>
       </Button>
       <TextField layoutX="119.0" layoutY="457.0" promptText="Ingrese ID" />
-      <TextField layoutX="401.0" layoutY="457.0" promptText="Ingrese la marca" />
-      <TextField layoutX="402.0" layoutY="524.0" promptText="Ingrese Precio" />
-      <TextField layoutX="402.0" layoutY="490.0" promptText="Ingrese Modelo" />
-      <TextField layoutX="119.0" layoutY="559.0" promptText="Ingrese Descripcion" />
-      <TextField layoutX="119.0" layoutY="523.0" promptText="Ingrese un Nombre" />
-      <TextField layoutX="119.0" layoutY="490.0" promptText="Ingrese Codigo" />
-      <Label layoutX="46.0" layoutY="563.0" text="Descripcion" />
-      <Label layoutX="354.0" layoutY="494.0" text="Modelo" />
-      <Label layoutX="329.0" layoutY="527.0" text="Precio Venta" />
-      <Label layoutX="59.0" layoutY="528.0" text="Nombre" />
-      <Label layoutX="22.0" layoutY="494.0" text="Codigo de Barra" />
+      <TextField layoutX="119.0" layoutY="557.0" promptText="Ingrese la marca" />
+      <TextField layoutX="401.0" layoutY="490.0" promptText="Ingrese Precio" />
+      <TextField layoutX="401.0" layoutY="457.0" promptText="Ingrese Modelo" />
+      <TextField layoutX="119.0" layoutY="523.0" promptText="Ingrese Descripcion" />
+      <TextField layoutX="119.0" layoutY="490.0" promptText="Ingrese un Nombre" />
+      <Label layoutX="50.0" layoutY="528.0" text="Descripcion" />
+      <Label layoutX="354.0" layoutY="461.0" text="Modelo" />
+      <Label layoutX="329.0" layoutY="494.0" text="Precio Venta" />
+      <Label layoutX="59.0" layoutY="496.0" text="Nombre" />
       <Label layoutX="81.0" layoutY="459.0" text="ID" />
-      <Label layoutX="356.0" layoutY="461.0" text="Marcas" />
+      <Label layoutX="68.0" layoutY="563.0" text="Marcas" />
       <Button layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
       <Button layoutX="691.0" layoutY="408.0" mnemonicParsing="false" text="Editar" />
       <Button layoutX="598.0" layoutY="408.0" mnemonicParsing="false" text="Eliminar" />
       <Button layoutX="509.0" layoutY="408.0" mnemonicParsing="false" text="Agregar" />
       <Button layoutX="182.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
       <Button layoutX="100.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
-      <TextField layoutX="657.0" layoutY="457.0" promptText="Ingrese datos" />
-      <Label layoutX="595.0" layoutY="461.0" text="Existencia" />
-      <TextField layoutX="401.0" layoutY="559.0" promptText="Ingrese Precio" />
-      <Label layoutX="317.0" layoutY="563.0" text="Precio Compra" />
-      <TextField layoutX="657.0" layoutY="490.0" promptText="Ingrese el minimo" />
-      <Label layoutX="572.0" layoutY="494.0" text="Stock Minimo" />
-      <TextField layoutX="657.0" layoutY="559.0" promptText="Ingrese la marca" />
-      <Label layoutX="596.0" layoutY="563.0" text="Garantias" />
-      <TextField layoutX="657.0" layoutY="523.0" promptText="Ingrese la Categoria" />
-      <Label layoutX="595.0" layoutY="527.0" text="Categoria" />
-      <TextField layoutX="900.0" layoutY="455.0" promptText="Ingrese color" />
-      <Label layoutX="855.0" layoutY="459.0" text="Color" />
-      <TextField layoutX="900.0" layoutY="490.0" promptText="Ingrese el peso" />
-      <Label layoutX="844.0" layoutY="494.0" text="PesoKg" />
-      <TextField layoutX="900.0" layoutY="524.0" promptText="Ingrese la marca" />
-      <Label layoutX="821.0" layoutY="528.0" text="Dimensiones" />
-      <TextField layoutX="900.0" layoutY="559.0" promptText="Ingrese los datos" />
-      <Label layoutX="850.0" layoutY="563.0" text="Activos" />
-      <TextField layoutX="1194.0" layoutY="470.0" promptText="Ingrese la marca" />
-      <Label layoutX="1101.0" layoutY="474.0" text="Fecha Creacion" />
-      <TextField layoutX="1211.0" layoutY="516.0" promptText="Ingrese la marca" />
-      <Label layoutX="1101.0" layoutY="520.0" text="Fecha Actualizacion" />
+      <TextField layoutX="401.0" layoutY="524.0" promptText="Ingrese el minimo" />
+      <Label layoutX="326.0" layoutY="530.0" text="Stock Minimo" />
+      <TextField layoutX="651.0" layoutY="457.0" promptText="Ingrese la marca" />
+      <Label layoutX="596.0" layoutY="461.0" text="Garantias" />
+      <TextField layoutX="401.0" layoutY="559.0" promptText="Ingrese la Categoria" />
+      <Label layoutX="344.0" layoutY="565.0" text="Categoria" />
+      <TextField layoutX="651.0" layoutY="490.0" promptText="Ingrese color" />
+      <Label layoutX="617.0" layoutY="496.0" text="Color" />
+      <TextField layoutX="651.0" layoutY="522.0" promptText="Ingrese el peso" />
+      <Label layoutX="606.0" layoutY="522.0" prefHeight="27.0" prefWidth="52.0" text="PesoKg" />
+      <TextField layoutX="651.0" layoutY="552.0" promptText="Ingrese la marca" />
+      <Label layoutX="572.0" layoutY="558.0" text="Dimensiones" />
+      <TextField layoutX="916.0" layoutY="457.0" promptText="Ingrese la marca" />
+      <Label layoutX="829.0" layoutY="496.0" text="Fecha Creacion" />
+      <TextField layoutX="916.0" layoutY="490.0" promptText="Ingrese la marca" />
+      <Label layoutX="837.0" layoutY="463.0" text="URL Imagen" />
       <Label layoutX="686.0" layoutY="28.0" text="Productos">
          <font>
             <Font size="64.0" />
