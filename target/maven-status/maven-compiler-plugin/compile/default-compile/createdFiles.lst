@@ -5,7 +5,9 @@ org\laboratorio\controller\MovimientosInventarioController.class
 org\laboratorio\controller\NuevoUsuarioController.class
 org\laboratorio\model\Venta.class
 org\laboratorio\controller\VentasController$Acciones.class
+org\laboratorio\controller\ProductoProveedorController$1.class
 org\laboratorio\controller\ClientesController$Acciones.class
+org\laboratorio\controller\ProductoProveedorController$4.class
 org\laboratorio\controller\ProveedoresController.class
 org\laboratorio\model\Cliente.class
 org\laboratorio\controller\ProductoProveedorController$Acciones.class
@@ -13,6 +15,7 @@ org\laboratorio\controller\MenuPrincipalController.class
 org\laboratorio\model\Especificacion.class
 org\laboratorio\model\Producto.class
 org\laboratorio\model\Categoria.class
+org\laboratorio\controller\ProductoProveedorController$3.class
 org\laboratorio\controller\ProductosController$Acciones.class
 org\laboratorio\system\Main.class
 org\laboratorio\controller\EspecificacionesController$2.class
@@ -26,6 +29,7 @@ org\laboratorio\controller\EspecificacionesController$Acciones.class
 org\laboratorio\controller\EspecificacionesController.class
 org\laboratorio\model\Proveedor.class
 org\laboratorio\controller\DetalleVentaController$Acciones.class
+org\laboratorio\controller\ProductoProveedorController$2.class
 org\laboratorio\controller\EspecificacionesController$1.class
 org\laboratorio\database\Conexion.class
 org\laboratorio\controller\DetalleVentaController.class

@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +24,10 @@ import org.laboratorio.model.ProductoProveedor;
 import org.laboratorio.system.Main;
 
 import static javafx.scene.control.Alert.AlertType.WARNING;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import org.laboratorio.model.Producto;
+import org.laboratorio.model.Proveedor;
 
 /**
  * FXML Controller class
@@ -33,16 +38,20 @@ public class ProductoProveedorController implements Initializable {
     private Main principal;
     private ProductoProveedor modeloProductoProveedor;
     private ObservableList<ProductoProveedor> listarRelaciones;
+    private ObservableList<Producto> productosList = FXCollections.observableArrayList();
+    private ObservableList<Proveedor> proveedoresList = FXCollections.observableArrayList();
     private enum Acciones {AGREGAR, EDITAR, ELIMINAR, NINGUNA}
     private Acciones accion = Acciones.NINGUNA;
     private boolean cancelando = false;
     
     @FXML private Button btnAnterior, btnSiguiente, btnNuevo, btnEditar, btnEliminar, btnReporte;
     @FXML private TableView<ProductoProveedor> tablaProductoProveedor;
-    @FXML private TableColumn colId, colProductoId, colProveedorId, colCodigoProveedor, 
+    @FXML private TableColumn colId, colProductoId, colProveedorId, 
             colPrecioCompra, colTiempoEntrega;
-    @FXML private TextField txtID, txtProductoId, txtProveedorId, txtCodigoProveedor, 
-            txtPrecioCompra, txtTiempoEntrega, txtBuscar;
+    @FXML private TextField txtID, txtProductoId, txtProveedorId, txtPrecioCompra,
+            txtTiempoEntrega, txtBuscar;
+    @FXML private ComboBox<Producto> cbxProducto;
+    @FXML private ComboBox<Proveedor> cbxProveedor;
     
     public void setPrincipal(Main principal) {
         this.principal = principal;
@@ -50,7 +59,9 @@ public class ProductoProveedorController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        setFormatoColumnaModelo();
+        setFormatoColumnaModelo();       
+        cargarProductos();
+        cargarProveedores();
         cargarDatos();
         tablaProductoProveedor.setOnMouseClicked(eventHandler -> getProductoProveedorTextField());
         deshabilitarCampos(); 
@@ -60,7 +71,6 @@ public class ProductoProveedorController implements Initializable {
         colId.setCellValueFactory(new PropertyValueFactory<>("idRelacion"));
         colProductoId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
         colProveedorId.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
-        colCodigoProveedor.setCellValueFactory(new PropertyValueFactory<>("codigoProveedor"));        
         colPrecioCompra.setCellValueFactory(new PropertyValueFactory<>("precioCompra"));
         colTiempoEntrega.setCellValueFactory(new PropertyValueFactory<>("diasEntrega"));
     }
@@ -73,15 +83,128 @@ public class ProductoProveedorController implements Initializable {
         getProductoProveedorTextField();
     }
     
-    public void getProductoProveedorTextField(){
+    public void getProductoProveedorTextField() {
         ProductoProveedor relacionSeleccionada = tablaProductoProveedor.getSelectionModel().getSelectedItem();
         if (relacionSeleccionada != null) {
             txtID.setText(String.valueOf(relacionSeleccionada.getIdRelacion()));
-            txtProductoId.setText(String.valueOf(relacionSeleccionada.getIdProducto()));
-            txtProveedorId.setText(String.valueOf(relacionSeleccionada.getIdProveedor()));
-            txtCodigoProveedor.setText(relacionSeleccionada.getCodigoProveedor());
+
+            productosList.stream()
+                .filter(p -> p.getIdProducto() == relacionSeleccionada.getIdProducto())
+                .findFirst()
+                .ifPresent(cbxProducto::setValue);
+
+            proveedoresList.stream()
+                .filter(prov -> prov.getIdProveedor() == relacionSeleccionada.getIdProveedor())
+                .findFirst()
+                .ifPresent(cbxProveedor::setValue);
+
             txtPrecioCompra.setText(String.valueOf(relacionSeleccionada.getPrecioCompra()));
             txtTiempoEntrega.setText(String.valueOf(relacionSeleccionada.getDiasEntrega()));
+        }
+    }
+    
+    private void cargarProductos() {
+        try {
+            Connection conexion = Conexion.getInstancia().getConexion();
+            String sql = "{call sp_ListarProductos()}";
+            CallableStatement stmt = conexion.prepareCall(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            productosList.clear();
+
+            while (rs.next()) {
+                productosList.add(new Producto(
+                    rs.getInt("IdProducto"),
+                    rs.getString("Nombre"),
+                    rs.getString("Descripcion"),
+                    rs.getString("Marca"),
+                    rs.getString("Modelo"),
+                    rs.getFloat("PrecioVenta"),
+                    rs.getInt("StockMinimo"),
+                    rs.getInt("CategoriaId"),
+                    rs.getInt("GarantiaMeses"),
+                    rs.getString("Color"),
+                    rs.getFloat("PesoKg"),
+                    rs.getString("Dimensiones"),
+                    rs.getString("urlImagen"),
+                    rs.getDate("FechaCreacion").toLocalDate()
+                ));
+            }
+
+            configurarComboBoxProducto();
+
+        } catch (SQLException e) {
+            System.err.println("Error al cargar productos: " + e.getMessage());
+            mostrarAlerta("Error", "No se pudieron cargar los productos");
+        }
+    }
+    
+    private void configurarComboBoxProducto() {
+        cbxProducto.setItems(productosList);
+
+        cbxProducto.setCellFactory(lv -> new ListCell<Producto>() {
+            @Override
+            protected void updateItem(Producto item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? null : item.toString());
+            }
+        });
+
+        cbxProducto.setButtonCell(new ListCell<Producto>() {
+            @Override
+            protected void updateItem(Producto item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "Seleccione un producto" : item.getNombre());
+            }
+        });
+    }
+    
+    private void configurarComboBoxProveedor() {
+        cbxProveedor.setItems(proveedoresList);
+
+        cbxProveedor.setCellFactory(lv -> new ListCell<Proveedor>() {
+            @Override
+            protected void updateItem(Proveedor item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? null : item.toString());
+            }
+        });
+
+        cbxProveedor.setButtonCell(new ListCell<Proveedor>() {
+            @Override
+            protected void updateItem(Proveedor item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "Seleccione un proveedor" : item.getNombre());
+            }
+        });
+    }
+    
+    
+    private void cargarProveedores() {
+        try {
+            Connection conexion = Conexion.getInstancia().getConexion();
+            String sql = "{call sp_ListarProveedores()}";
+            CallableStatement stmt = conexion.prepareCall(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            proveedoresList.clear();
+
+            while (rs.next()) {
+                proveedoresList.add(new Proveedor(
+                    rs.getInt("IdProveedor"),
+                    rs.getString("Nombre"),
+                    rs.getString("Telefono"),
+                    rs.getString("Email"),
+                    rs.getString("Direccion"),
+                    rs.getString("Especialidad")
+                ));
+            }
+
+            configurarComboBoxProveedor();
+
+        } catch (SQLException e) {
+            System.err.println("Error al cargar proveedores: " + e.getMessage());
+            mostrarAlerta("Error", "No se pudieron cargar los proveedores");
         }
     }
     
@@ -97,9 +220,8 @@ public class ProductoProveedorController implements Initializable {
                     resultado.getInt(1),
                     resultado.getInt(2),
                     resultado.getInt(3),
-                    resultado.getString(4),
-                    resultado.getFloat(5),
-                    resultado.getInt(6)
+                    resultado.getFloat(4),
+                    resultado.getInt(5)
                 ));
             }
         } catch (SQLException e) {
@@ -108,16 +230,15 @@ public class ProductoProveedorController implements Initializable {
         return relaciones;
     }
     
-    private ProductoProveedor getModeloProductoProveedor(){
+    private ProductoProveedor getModeloProductoProveedor() {
         int idRelacion = txtID.getText().isEmpty() ? 0 : Integer.parseInt(txtID.getText());
-        int idProducto = Integer.parseInt(txtProductoId.getText());
-        int idProveedor = Integer.parseInt(txtProveedorId.getText());
-        String codigoProveedor = txtCodigoProveedor.getText();
+        int idProducto = cbxProducto.getValue() != null ? cbxProducto.getValue().getIdProducto() : 0;
+        int idProveedor = cbxProveedor.getValue() != null ? cbxProveedor.getValue().getIdProveedor() : 0;
         float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
         int tiempoEntrega = Integer.parseInt(txtTiempoEntrega.getText());
-        
+
         return new ProductoProveedor(
-            idRelacion, idProducto, idProveedor, codigoProveedor, precioCompra, tiempoEntrega
+            idRelacion, idProducto, idProveedor, precioCompra, tiempoEntrega
         );
     }
     
@@ -129,9 +250,8 @@ public class ProductoProveedorController implements Initializable {
                 .prepareCall("{call sp_AgregarProductoProveedor(?,?,?,?,?)}");
             enunciado.setInt(1, modeloProductoProveedor.getIdProducto());
             enunciado.setInt(2, modeloProductoProveedor.getIdProveedor());
-            enunciado.setString(3, modeloProductoProveedor.getCodigoProveedor());
-            enunciado.setFloat(4, modeloProductoProveedor.getPrecioCompra());
-            enunciado.setInt(5, modeloProductoProveedor.getDiasEntrega());
+            enunciado.setFloat(3, modeloProductoProveedor.getPrecioCompra());
+            enunciado.setInt(4, modeloProductoProveedor.getDiasEntrega());
             enunciado.execute();
             cargarDatos();
         } catch (SQLException ex) {
@@ -148,9 +268,8 @@ public class ProductoProveedorController implements Initializable {
             enunciado.setInt(1, modeloProductoProveedor.getIdRelacion());
             enunciado.setInt(2, modeloProductoProveedor.getIdProducto());
             enunciado.setInt(3, modeloProductoProveedor.getIdProveedor());
-            enunciado.setString(4, modeloProductoProveedor.getCodigoProveedor());
-            enunciado.setFloat(5, modeloProductoProveedor.getPrecioCompra());
-            enunciado.setInt(6, modeloProductoProveedor.getDiasEntrega());
+            enunciado.setFloat(4, modeloProductoProveedor.getPrecioCompra());
+            enunciado.setInt(5, modeloProductoProveedor.getDiasEntrega());
             enunciado.execute();
             cargarDatos();
         } catch (SQLException e) {
@@ -172,11 +291,10 @@ public class ProductoProveedorController implements Initializable {
         }
     }
     
-    public void limpiarTexto(){
+    public void limpiarTexto() {
         txtID.clear();
-        txtProductoId.clear();
-        txtProveedorId.clear();
-        txtCodigoProveedor.clear();
+        cbxProducto.getSelectionModel().clearSelection();
+        cbxProveedor.getSelectionModel().clearSelection();
         txtPrecioCompra.clear();
         txtTiempoEntrega.clear();
     }
@@ -243,9 +361,8 @@ public class ProductoProveedorController implements Initializable {
     }
     
     private void habilitarCampos() {
-        txtProductoId.setDisable(false);
-        txtProveedorId.setDisable(false);
-        txtCodigoProveedor.setDisable(false);
+        cbxProducto.setDisable(false);
+        cbxProveedor.setDisable(false);
         txtPrecioCompra.setDisable(false);
         txtTiempoEntrega.setDisable(false);
 
@@ -255,9 +372,8 @@ public class ProductoProveedorController implements Initializable {
     }
 
     private void deshabilitarCampos() {
-        txtProductoId.setDisable(true);
-        txtProveedorId.setDisable(true);
-        txtCodigoProveedor.setDisable(true);
+        cbxProducto.setDisable(true);
+        cbxProveedor.setDisable(true);
         txtPrecioCompra.setDisable(true);
         txtTiempoEntrega.setDisable(true);
 
@@ -310,15 +426,14 @@ public class ProductoProveedorController implements Initializable {
     }
     
     private void cambiarEstado(boolean estado) {
-        txtProductoId.setDisable(estado);
-        txtProveedorId.setDisable(estado);
-        txtCodigoProveedor.setDisable(estado);
+        cbxProducto.setDisable(estado);
+        cbxProveedor.setDisable(estado);
         txtPrecioCompra.setDisable(estado);
         txtTiempoEntrega.setDisable(estado);
     }
     
-    private void habilitarDeshabilitarNodo(){
-        boolean deshabilitado = txtProductoId.isDisable();
+    private void habilitarDeshabilitarNodo() {
+        boolean deshabilitado = cbxProducto.isDisable();
         cambiarEstado(!deshabilitado);
         btnSiguiente.setDisable(deshabilitado);
         btnAnterior.setDisable(deshabilitado);
@@ -326,45 +441,56 @@ public class ProductoProveedorController implements Initializable {
     }
     
     @FXML
-    private void btnBuscarPorCodigo(){
+    private void btnBuscarPorRelacion(){
         ArrayList<ProductoProveedor> resultadoBusqueda = new ArrayList<>();
-        String codigoBuscado = txtBuscar.getText();
+        String textoBuscado = txtBuscar.getText().toLowerCase();
+
         for(ProductoProveedor relacion: listarRelaciones) {
-            if(relacion.getCodigoProveedor().toLowerCase().contains(codigoBuscado.toLowerCase())) {
+            boolean matchProducto = productosList.stream()
+                .filter(p -> p.getIdProducto() == relacion.getIdProducto())
+                .anyMatch(p -> p.getNombre().toLowerCase().contains(textoBuscado));
+
+            boolean matchProveedor = proveedoresList.stream()
+                .filter(p -> p.getIdProveedor() == relacion.getIdProveedor())
+                .anyMatch(p -> p.getNombre().toLowerCase().contains(textoBuscado));
+
+            if(matchProducto || matchProveedor) {
                 resultadoBusqueda.add(relacion);
             }
         }
+
         tablaProductoProveedor.setItems(FXCollections.observableArrayList(resultadoBusqueda));
         if (resultadoBusqueda.isEmpty()) {
+            mostrarAlerta("Búsqueda", "No se encontraron coincidencias");
             tablaProductoProveedor.getSelectionModel().selectFirst();
         }
     }
     
     private boolean validarFormulario() {
-        if(cancelando) return true; 
-        
-        if (txtProductoId.getText().isEmpty() || txtProveedorId.getText().isEmpty() || 
-            txtPrecioCompra.getText().isEmpty() || txtTiempoEntrega.getText().isEmpty()) {
-            mostrarAlerta("Campos vacíos", "Por favor, complete los campos obligatorios (ID Producto, ID Proveedor, Precio y Tiempo de Entrega).");
+        if (cancelando) return true;
+        if (cbxProducto.getValue() == null) {
+            mostrarAlerta("Validación", "Debe seleccionar un producto");
+            cbxProducto.requestFocus();
             return false;
         }
-        
+        if (cbxProveedor.getValue() == null) {
+            mostrarAlerta("Validación", "Debe seleccionar un proveedor");
+            cbxProveedor.requestFocus();
+            return false;
+        }
         try {
-            int productoId = Integer.parseInt(txtProductoId.getText());
-            int proveedorId = Integer.parseInt(txtProveedorId.getText());
             float precioCompra = Float.parseFloat(txtPrecioCompra.getText());
             int tiempoEntrega = Integer.parseInt(txtTiempoEntrega.getText());
-            
-            if (productoId <= 0 || proveedorId <= 0 || precioCompra <= 0 || tiempoEntrega <= 0) {
-                mostrarAlerta("Valores inválidos", "Los IDs, precio y tiempo de entrega deben ser valores positivos.");
+
+            if (precioCompra <= 0 || tiempoEntrega <= 0) {
+                mostrarAlerta("Validación", "Precio y tiempo de entrega deben ser mayores a cero");
                 return false;
             }
-            
         } catch (NumberFormatException e) {
-            mostrarAlerta("Formato incorrecto", "Por favor, ingrese valores numéricos válidos.");
+            mostrarAlerta("Error", "Precio y tiempo de entrega deben ser valores numéricos");
             return false;
         }
-        
+
         return true;
     }
     

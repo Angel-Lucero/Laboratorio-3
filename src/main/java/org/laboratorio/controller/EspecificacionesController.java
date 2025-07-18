@@ -35,7 +35,7 @@ public class EspecificacionesController implements Initializable {
     private Main principal;
     private Especificacion modeloEspecificacion;
     private ObservableList<Especificacion> listarEspecificaciones;
-    private ObservableList<Producto> productosList;
+    private ObservableList<Producto> productosList = FXCollections.observableArrayList();
     private enum Acciones {AGREGAR, EDITAR, ELIMINAR, NINGUNA}
     private Acciones accion = Acciones.NINGUNA;
     private boolean cancelando = false;
@@ -54,6 +54,7 @@ public class EspecificacionesController implements Initializable {
         setFormatoColumnaModelo();
         cargarProductos();
         cargarDatos();
+        configurarEventos();
         tablaEspecificaciones.setOnMouseClicked(eventHandler -> getEspecificacionTextField());
         deshabilitarCampos(); 
     }  
@@ -74,18 +75,21 @@ public class EspecificacionesController implements Initializable {
         getEspecificacionTextField();
     }
     
-    public void getEspecificacionTextField(){
-        Especificacion especificacionSeleccionada = tablaEspecificaciones.getSelectionModel().getSelectedItem();
-        if (especificacionSeleccionada != null) {
-            txtID.setText(String.valueOf(especificacionSeleccionada.getIdEspecificacion()));
-            productosList.stream()
-                .filter(p -> p.getIdProducto() == especificacionSeleccionada.getIdProducto())
-                .findFirst()
-                .ifPresent(cbxProducto::setValue);
+    public void getEspecificacionTextField() {
+        Especificacion especificacion = tablaEspecificaciones.getSelectionModel().getSelectedItem();
+        if (especificacion != null) {
+            txtID.setText(String.valueOf(especificacion.getIdEspecificacion()));
 
-            txtCaracteristica.setText(especificacionSeleccionada.getCaracteristica());
-            txtValor.setText(especificacionSeleccionada.getValor());
-            txtUnidad.setText(especificacionSeleccionada.getUnidad());
+            if (productosList != null) {
+                productosList.stream()
+                    .filter(p -> p.getIdProducto() == especificacion.getIdProducto())
+                    .findFirst()
+                    .ifPresent(p -> cbxProducto.getSelectionModel().select(p));
+            }
+
+            txtCaracteristica.setText(especificacion.getCaracteristica());
+            txtValor.setText(especificacion.getValor());
+            txtUnidad.setText(especificacion.getUnidad());
         }
     }
     
@@ -111,15 +115,16 @@ public class EspecificacionesController implements Initializable {
         return especificaciones;
     }
     
-    private Especificacion getModeloEspecificacion(){
-        int idEspecificacion = txtID.getText().isEmpty() ? 0 : Integer.parseInt(txtID.getText());
-        int idProducto = cbxProducto.getValue() != null ? cbxProducto.getValue().getIdProducto() : 0;
-        String caracteristica = txtCaracteristica.getText();
-        String valor = txtValor.getText();
-        String unidad = txtUnidad.getText();
+    private Especificacion getModeloEspecificacion() {
+        int idProducto = cbxProducto.getValue() != null ? 
+                        cbxProducto.getValue().getIdProducto() : 0;
 
         return new Especificacion(
-            idEspecificacion, idProducto, caracteristica, valor, unidad
+            txtID.getText().isEmpty() ? 0 : Integer.parseInt(txtID.getText()),
+            idProducto,
+            txtCaracteristica.getText(),
+            txtValor.getText(),
+            txtUnidad.getText()
         );
     }
     
@@ -173,56 +178,76 @@ public class EspecificacionesController implements Initializable {
     }
     
     private void cargarProductos() {
-    try {
-        Connection conexion = Conexion.getInstancia().getConexion();
-        String sql = "{call sp_ListarProductos}"; 
-        CallableStatement stmt = conexion.prepareCall(sql);
-        ResultSet rs = stmt.executeQuery();
+        try {
+            Connection conexion = Conexion.getInstancia().getConexion();
+            String sql = "{call sp_ListarProductos()}";
+            CallableStatement stmt = conexion.prepareCall(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            productosList.clear(); 
+
+            while (rs.next()) {
+                Producto producto = new Producto(
+                    rs.getInt("IdProducto"),
+                    rs.getString("Nombre"),
+                    rs.getString("Descripcion"),
+                    rs.getString("Marca"),
+                    rs.getString("Modelo"),
+                    rs.getFloat("PrecioVenta"),
+                    rs.getInt("StockMinimo"),
+                    rs.getInt("CategoriaId"),
+                    rs.getInt("GarantiaMeses"),
+                    rs.getString("Color"),
+                    rs.getFloat("PesoKg"),
+                    rs.getString("Dimensiones"),
+                    rs.getString("urlImagen"),
+                    rs.getTimestamp("FechaCreacion").toLocalDateTime().toLocalDate()
+                );
+                productosList.add(producto);
+            }
         
-        productosList.clear();
-        while (rs.next()) {
-            productosList.add(new Producto(
-                rs.getInt("idProducto"),
-                rs.getString("nombre"),
-                rs.getString("descripcion"),
-                rs.getString("marca"),
-                rs.getString("modelo"),
-                rs.getFloat("precioVenta"),
-                rs.getInt("stockMinimo"),
-                rs.getInt("categoriaId"),
-                rs.getInt("garantiaMeses"),
-                rs.getString("color"),
-                rs.getFloat("peso"),
-                rs.getString("dimensiones"),
-                rs.getString("UrlImagen"),
-                rs.getDate("fechaCreacion").toLocalDate()
-            ));
+            cbxProducto.setItems(productosList);
+        
+            cbxProducto.setCellFactory(lv -> new ListCell<Producto>() {
+                @Override
+                protected void updateItem(Producto item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(String.format("%s - %s %s", 
+                            item.getNombre(), 
+                            item.getMarca(), 
+                            item.getModelo()));
+                    }
+                }
+            });
+        
+            cbxProducto.setButtonCell(new ListCell<Producto>() {
+                @Override
+                protected void updateItem(Producto item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText("Seleccione un producto");
+                    } else {
+                        setText(item.getNombre());
+                    }
+                }
+            });
+
+        } catch (SQLException e) {
+            System.out.println("Error al cargar productos: " + e.getMessage());
+            mostrarAlerta("Error", "No se pudieron cargar los productos");
         }
-        
-        cbxProducto.setItems(productosList);
-        
-        cbxProducto.setCellFactory(lv -> new ListCell<Producto>() {
-            @Override
-            protected void updateItem(Producto item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty ? null : item.getNombre() + " | " + item.getMarca() + " | " + item.getModelo());
-            }
-        });
-        
-        cbxProducto.setButtonCell(new ListCell<Producto>() {
-            @Override
-            protected void updateItem(Producto item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty ? "Seleccione un producto" : item.getNombre() + " | " + item.getMarca());
-            }
-        });
-        
-    } catch (SQLException e) {
-        System.out.println("Error al cargar productos: " + e.getMessage());
-        mostrarAlerta("Error", "No se pudieron cargar los productos");
     }
-}
     
+    private void configurarEventos() {
+        tablaEspecificaciones.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1) {
+                getEspecificacionTextField();
+            }
+        });
+    }
     
     public void limpiarTexto(){
         txtID.clear();
@@ -389,20 +414,21 @@ public class EspecificacionesController implements Initializable {
     }
     
     private boolean validarFormulario() {
-        if(cancelando) return true; 
-        
         if (cbxProducto.getValue() == null) {
-                mostrarAlerta("Selección requerida", "Debe seleccionar un producto");
-                return false;
-         }   
+            mostrarAlerta("Validación", "Debe seleccionar un producto");
+            cbxProducto.requestFocus();
+            return false;
+        }
         if (txtCaracteristica.getText().trim().isEmpty()) {
-            mostrarAlerta("Campo requerido", "La característica es obligatoria");
+            mostrarAlerta("Validación", "La característica es requerida");
+            txtCaracteristica.requestFocus();
             return false;
         }
         if (txtValor.getText().trim().isEmpty()) {
-            mostrarAlerta("Campo requerido", "El valor es obligatorio");
+            mostrarAlerta("Validación", "El valor es requerido");
+            txtValor.requestFocus();
             return false;
-        }     
+        }
         return true;
     }
     

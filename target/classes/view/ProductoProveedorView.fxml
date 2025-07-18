@@ -17,20 +17,19 @@
     </stylesheets>
    <children>
       <Button layoutX="28.0" layoutY="27.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
-      <TableView fx:id="tablaProductoProveedor" layoutX="36.0" layoutY="136.0" prefHeight="259.0" prefWidth="880.0">
+      <TableView fx:id="tablaProductoProveedor" layoutX="36.0" layoutY="136.0" prefHeight="259.0" prefWidth="722.0">
          <columns>
             <TableColumn fx:id="colId" prefWidth="135.0" text="ID Relacion" />
             <TableColumn fx:id="colProductoId" prefWidth="148.0" text="ID Producto" />
             <TableColumn fx:id="colProveedorId" prefWidth="111.0" text="ID Proveedor" />
-            <TableColumn fx:id="colCodigoProveedor" prefWidth="160.0" text="Codigo Proveedor" />
             <TableColumn fx:id="colPrecioCompra" prefWidth="150.0" text="Precio Compra" />
             <TableColumn fx:id="colTiempoEntrega" prefWidth="174.0" text="Tiempo de Entrega" />
          </columns>
       </TableView>
-      <TextField fx:id="txtBuscar" layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
-      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" onAction="#btnBuscarPorCodigo" prefHeight="45.0" prefWidth="34.0">
+      <TextField fx:id="txtBuscar" layoutX="38.0" layoutY="97.0" onAction="#btnBuscarPorRelacion" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
+      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" onAction="#btnBuscarPorRelacion" prefHeight="45.0" prefWidth="34.0">
          <graphic>
-            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="25.0" onDragDetected="#btnBuscarPorRelacion" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../../../../Downloads/Buscar.png" />
                </image>
@@ -38,13 +37,12 @@
          </graphic>
       </Button>
       <TextField fx:id="txtID" layoutX="119.0" layoutY="457.0" promptText="Ingrese ID" />
-      <TextField fx:id="txtPrecioCompra" layoutX="443.0" layoutY="490.0" promptText="Ingrese el Precio" />
-      <Label layoutX="339.0" layoutY="461.0" text="Proveedor" />
-      <Label layoutX="326.0" layoutY="527.0" text="Tiempo de Entrega" />
+      <TextField fx:id="txtPrecioCompra" layoutX="429.0" layoutY="455.0" promptText="Ingrese el Precio" />
+      <Label layoutX="321.0" layoutY="501.0" text="Tiempo de Entrega" />
       <Label layoutX="45.0" layoutY="527.0" text="Proveedor" />
       <Label layoutX="48.0" layoutY="494.0" text="Producto" />
       <Label layoutX="50.0" layoutY="461.0" text="ID Relacion" />
-      <Label layoutX="348.0" layoutY="494.0" text="Precio Compra" />
+      <Label layoutX="337.0" layoutY="461.0" text="Precio Compra" />
       <Button fx:id="btnReporte" layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
       <Button fx:id="btnEditar" layoutX="691.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarEdicionRelacion" text="Editar" />
       <Button fx:id="btnEliminar" layoutX="598.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarCancelarEliminar" text="Eliminar" />
@@ -52,9 +50,8 @@
       <Button fx:id="btnSiguiente" layoutX="182.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnSiguienteAccion" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
       <Button fx:id="btnAnterior" layoutX="100.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnAnteriorAccion" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
       <Label layoutX="503.0" layoutY="44.0" text="Producto Proveedor" />
-      <TextField fx:id="txtTiempoEntrega" layoutX="443.0" layoutY="523.0" promptText="Ingrese cantidad de días" />
-      <ComboBox layoutX="118.0" layoutY="491.0" prefWidth="150.0" />
-      <ComboBox layoutX="118.0" layoutY="522.0" prefWidth="150.0" />
-      <ComboBox layoutX="442.0" layoutY="456.0" prefWidth="150.0" />
+      <TextField fx:id="txtTiempoEntrega" layoutX="435.0" layoutY="495.0" promptText="Ingrese cantidad de días" />
+      <ComboBox fx:id="cbxProducto" layoutX="118.0" layoutY="491.0" prefWidth="150.0" promptText="Elegir Producto" />
+      <ComboBox fx:id="cbxProveedor" layoutX="118.0" layoutY="522.0" prefWidth="150.0" promptText="Elegir Proveedor" />
    </children>
 </AnchorPane>
