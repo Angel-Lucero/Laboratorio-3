@@ -16,15 +16,20 @@
         <URL value="@Producto_Proveedor_View.css" />
     </stylesheets>
    <children>
+      <ImageView fitHeight="622.0" fitWidth="1105.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../org/laboratorio/image/34.png" />
+         </image>
+      </ImageView>
       <Button layoutX="28.0" layoutY="27.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
-      <TableView layoutX="36.0" layoutY="136.0" prefHeight="259.0" prefWidth="880.0">
+      <TableView layoutX="42.0" layoutY="137.0" prefHeight="259.0" prefWidth="1012.0">
          <columns>
             <TableColumn prefWidth="135.0" text="ID Relacion" />
-            <TableColumn prefWidth="148.0" text="ID Producto" />
-            <TableColumn prefWidth="111.0" text="ID Proveedor" />
-            <TableColumn prefWidth="160.0" text="Codigo Proveedor" />
-            <TableColumn prefWidth="150.0" text="Precio Compra" />
-            <TableColumn prefWidth="174.0" text="Tiempo de Entrega" />
+            <TableColumn prefWidth="183.0" text="ID Producto" />
+            <TableColumn prefWidth="188.0" text="ID Proveedor" />
+            <TableColumn prefWidth="213.0" text="Codigo Proveedor" />
+            <TableColumn prefWidth="113.0" text="Precio Compra" />
+            <TableColumn prefWidth="178.0" text="Tiempo de Entrega" />
          </columns>
       </TableView>
       <TextField layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
@@ -32,22 +37,22 @@
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Downloads/Buscar.png" />
+                  <Image url="@../org/laboratorio/image/Buscar.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <TextField layoutX="119.0" layoutY="457.0" promptText="Ingrese ID" />
-      <TextField layoutX="443.0" layoutY="490.0" promptText="Ingrese el Precio" />
-      <TextField layoutX="443.0" layoutY="457.0" promptText="Ingrese Codigo" />
-      <TextField layoutX="119.0" layoutY="523.0" promptText="Ingrese ID" />
-      <TextField layoutX="119.0" layoutY="490.0" promptText="Ingrese ID" />
-      <Label layoutX="339.0" layoutY="461.0" text="Codigo Proveedor" />
-      <Label layoutX="326.0" layoutY="527.0" text="Tiempo de Entrega" />
-      <Label layoutX="45.0" layoutY="527.0" text="ID Proveedor" />
-      <Label layoutX="48.0" layoutY="494.0" text="ID Producto" />
-      <Label layoutX="50.0" layoutY="461.0" text="ID Relacion" />
-      <Label layoutX="348.0" layoutY="494.0" text="Precio Compra" />
+      <TextField layoutX="370.0" layoutY="455.0" promptText="Ingrese ID" />
+      <TextField layoutX="697.0" layoutY="490.0" promptText="Ingrese el Precio" />
+      <TextField layoutX="697.0" layoutY="455.0" promptText="Ingrese Codigo" />
+      <TextField layoutX="370.0" layoutY="523.0" promptText="Ingrese ID" />
+      <TextField layoutX="370.0" layoutY="490.0" promptText="Ingrese ID" />
+      <Label layoutX="589.0" layoutY="461.0" text="Codigo Proveedor" />
+      <Label layoutX="587.0" layoutY="527.0" text="Tiempo de Entrega" />
+      <Label layoutX="292.0" layoutY="529.0" text="ID Proveedor" />
+      <Label layoutX="300.0" layoutY="496.0" text="ID Producto" />
+      <Label layoutX="302.0" layoutY="461.0" text="ID Relacion" />
+      <Label layoutX="607.0" layoutY="494.0" text="Precio Compra" />
       <Button layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
       <Button layoutX="691.0" layoutY="408.0" mnemonicParsing="false" text="Editar" />
       <Button layoutX="598.0" layoutY="408.0" mnemonicParsing="false" text="Eliminar" />
@@ -55,6 +60,6 @@
       <Button layoutX="182.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
       <Button layoutX="100.0" layoutY="408.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
       <Label layoutX="503.0" layoutY="44.0" text="Producto Proveedor" />
-      <DatePicker layoutX="439.0" layoutY="523.0" prefHeight="25.0" prefWidth="235.0" promptText="Eliga la Fecha" />
+      <DatePicker layoutX="697.0" layoutY="522.0" prefHeight="25.0" prefWidth="235.0" promptText="Eliga la Fecha" />
    </children>
 </AnchorPane>

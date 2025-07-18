@@ -16,23 +16,28 @@
         <URL value="@Proveedores_View.css" />
     </stylesheets>
    <children>
+      <ImageView fitHeight="622.0" fitWidth="1134.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../org/laboratorio/image/34.png" />
+         </image>
+      </ImageView>
       <Button layoutX="26.0" layoutY="21.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
-      <TableView layoutX="34.0" layoutY="136.0" prefHeight="277.0" prefWidth="966.0">
+      <TableView layoutX="71.0" layoutY="134.0" prefHeight="277.0" prefWidth="966.0">
          <columns>
             <TableColumn prefWidth="79.0" text="ID" />
-            <TableColumn prefWidth="92.0" text="Nombre" />
-            <TableColumn prefWidth="81.0" text="Telefono" />
-            <TableColumn prefWidth="85.0" text="Email" />
-            <TableColumn prefWidth="91.0" text="Direccion" />
-            <TableColumn prefWidth="116.0" text="Especialidad" />
+            <TableColumn prefWidth="193.0" text="Nombre" />
+            <TableColumn prefWidth="172.0" text="Telefono" />
+            <TableColumn prefWidth="110.0" text="Email" />
+            <TableColumn prefWidth="177.0" text="Direccion" />
+            <TableColumn prefWidth="233.0" text="Especialidad" />
          </columns>
       </TableView>
-      <TextField layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
-      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="34.0">
+      <TextField layoutX="77.0" layoutY="90.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
+      <Button layoutX="246.0" layoutY="83.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="34.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Downloads/Buscar.png" />
+                  <Image url="@../org/laboratorio/image/Buscar.png" />
                </image>
             </ImageView>
          </graphic>
@@ -43,19 +48,19 @@
       <Button layoutX="656.0" layoutY="421.0" mnemonicParsing="false" text="Eliminar" />
       <Button layoutX="741.0" layoutY="421.0" mnemonicParsing="false" text="Editar" />
       <Button layoutX="816.0" layoutY="421.0" mnemonicParsing="false" text="Reporte" />
-      <TextField layoutX="136.0" layoutY="470.0" promptText="Ingrese ID" />
-      <TextField layoutX="402.0" layoutY="469.0" promptText="Ingrese un Email" />
-      <TextField layoutX="402.0" layoutY="538.0" promptText="Ingrese Especialidad" />
-      <TextField layoutX="402.0" layoutY="503.0" promptText="Ingrese un Direccion" />
-      <TextField layoutX="136.0" layoutY="538.0" promptText="Ingrese un Telefono" />
-      <TextField layoutX="136.0" layoutY="504.0" promptText="Ingrese un Nombre" />
-      <Label layoutX="76.0" layoutY="543.0" text="Telefono" />
-      <Label layoutX="336.0" layoutY="508.0" text="Direccion" />
-      <Label layoutX="318.0" layoutY="543.0" text="Especialidad" />
-      <Label layoutX="77.0" layoutY="509.0" text="Nombre" />
-      <Label layoutX="112.0" layoutY="475.0" text="ID" />
-      <Label layoutX="356.0" layoutY="474.0" text="Email" />
-      <Label layoutX="451.0" layoutY="34.0" text="Proveedores">
+      <TextField layoutX="381.0" layoutY="471.0" promptText="Ingrese ID" />
+      <TextField layoutX="676.0" layoutY="471.0" promptText="Ingrese un Email" />
+      <TextField layoutX="676.0" layoutY="539.0" promptText="Ingrese Especialidad" />
+      <TextField layoutX="676.0" layoutY="504.0" promptText="Ingrese un Direccion" />
+      <TextField layoutX="381.0" layoutY="540.0" promptText="Ingrese un Telefono" />
+      <TextField layoutX="381.0" layoutY="505.0" promptText="Ingrese un Nombre" />
+      <Label layoutX="312.0" layoutY="544.0" text="Telefono" />
+      <Label layoutX="608.0" layoutY="509.0" text="Direccion" />
+      <Label layoutX="589.0" layoutY="544.0" text="Especialidad" />
+      <Label layoutX="314.0" layoutY="509.0" text="Nombre" />
+      <Label layoutX="351.0" layoutY="476.0" text="ID" />
+      <Label layoutX="630.0" layoutY="476.0" text="Email" />
+      <Label layoutX="551.0" layoutY="43.0" text="Proveedores">
          <font>
             <Font size="48.0" />
          </font>

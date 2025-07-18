@@ -24,9 +24,14 @@ Button[text="Volver a Menu Principal"] {
     -fx-font-weight: bold;
 } */
 
-Label[text="Clientes"] {
-   -fx-size: 30px;
-    -fx-background-color: transparent;
+.button {
+    -fx-background-color: #1565c0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+
 }
 .button:hover {
     -fx-background-color: #0d47a1;
