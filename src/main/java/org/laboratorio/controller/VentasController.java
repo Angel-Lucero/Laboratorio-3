@@ -23,11 +23,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.laboratorio.database.Conexion;
 import org.laboratorio.model.Venta;
+import org.laboratorio.model.Cliente;
+import org.laboratorio.model.Usuario;
 import org.laboratorio.system.Main;
 
 import static javafx.scene.control.Alert.AlertType.WARNING;
 /**
- * FXML Controller class
  *
  * @author Lu0
  */
@@ -35,6 +36,8 @@ public class VentasController implements Initializable {
     private Main principal;
     private Venta modeloVenta;
     private ObservableList<Venta> listarVentas;
+    private ObservableList<Cliente> listaClientes;
+    private ObservableList<Usuario> listaUsuarios;
     private enum Acciones {AGREGAR, EDITAR, ELIMINAR, NINGUNA}
     private Acciones accion = Acciones.NINGUNA;
     private boolean cancelando = false;
@@ -42,10 +45,10 @@ public class VentasController implements Initializable {
     @FXML private Button btnAnterior, btnSiguiente, btnNuevo, btnEditar, btnEliminar, btnReporte;
     @FXML private TableView<Venta> tablaVentas;
     @FXML private TableColumn colId, colClienteId, colFechaVenta, colSubtotal, 
-            colIva, colTotal, colMetodoPago, colUsuarioId, colFacturada, colFolioFactura;
-    @FXML private TextField txtID, txtClienteId, txtSubtotal, txtIva, txtTotal, 
-            txtUsuarioId, txtFolioFactura, txtBuscar;
-    @FXML private ComboBox<String> cbMetodoPago, cbFacturada;
+            colIva, colTotal, colMetodoPago, colFacturada, colFolioFactura;
+    @FXML private TextField txtID, txtSubtotal, txtIva, txtTotal, txtFolioFactura, txtBuscar;
+    @FXML private ComboBox<String> cbxMetodoPago, cbxFacturada;
+    @FXML private ComboBox<Cliente> cbxCliente;
     
     public void setPrincipal(Main principal) {
         this.principal = principal;
@@ -53,15 +56,58 @@ public class VentasController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Configurar comboboxes
-        cbMetodoPago.getItems().addAll("Efectivo", "Tarjeta", "Transferencia", "Meses sin intereses");
-        cbFacturada.getItems().addAll("Facturada", "No Facturada");
+        cbxMetodoPago.getItems().addAll("Efectivo", "Tarjeta", "Transferencia", "Meses sin intereses");
+        cbxFacturada.getItems().addAll("Facturada", "No Facturada");
         
+        cargarClientes();
+        cargarUsuarios();
         setFormatoColumnaModelo();
         cargarDatos();
         tablaVentas.setOnMouseClicked(eventHandler -> getVentaTextField());
         deshabilitarCampos(); 
-    }  
+    }
+    
+    private void cargarClientes() {
+        listaClientes = FXCollections.observableArrayList();
+        try {
+            Connection conexion = Conexion.getInstancia().getConexion();
+            CallableStatement stmt = conexion.prepareCall("{call sp_ListarClientes()}");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Cliente cliente = new Cliente(
+                    rs.getInt("IdCliente"),
+                    rs.getString("Nombre"),
+                    rs.getString("Apellidos"),
+                    rs.getString("Telefono"),
+                    rs.getString("Email"),
+                    rs.getString("Direccion"),
+                    rs.getDate("FechaRegistro").toLocalDate()
+                );
+                listaClientes.add(cliente);
+            }
+            cbxCliente.setItems(listaClientes);
+        } catch (SQLException e) {
+            mostrarError("Error al cargar clientes", e.getMessage());
+        }
+    }
+    
+    private void cargarUsuarios() {
+        listaUsuarios = FXCollections.observableArrayList();
+        try {
+            Connection conexion = Conexion.getInstancia().getConexion();
+            CallableStatement stmt = conexion.prepareCall("{call sp_ListarUsuarios()}");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Usuario usuario = new Usuario(
+                    rs.getString("nombre"),
+                    rs.getString("contrasena")
+                );
+                listaUsuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            mostrarError("Error al cargar usuarios", e.getMessage());
+        }
+    }
     
     public void setFormatoColumnaModelo(){
         colId.setCellValueFactory(new PropertyValueFactory<>("idVenta"));
@@ -71,7 +117,6 @@ public class VentasController implements Initializable {
         colIva.setCellValueFactory(new PropertyValueFactory<>("iva"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("total"));
         colMetodoPago.setCellValueFactory(new PropertyValueFactory<>("metodoPago"));
-        colUsuarioId.setCellValueFactory(new PropertyValueFactory<>("usuarioId"));
         colFacturada.setCellValueFactory(new PropertyValueFactory<>("facturada"));
         colFolioFactura.setCellValueFactory(new PropertyValueFactory<>("folioFactura"));
     }
@@ -90,13 +135,20 @@ public class VentasController implements Initializable {
         Venta ventaSeleccionada = tablaVentas.getSelectionModel().getSelectedItem();
         if (ventaSeleccionada != null) {
             txtID.setText(String.valueOf(ventaSeleccionada.getIdVenta()));
-            txtClienteId.setText(String.valueOf(ventaSeleccionada.getIdCliente()));
+            
+            // Buscar y seleccionar el cliente correspondiente
+            for (Cliente cliente : cbxCliente.getItems()) {
+                if (cliente.getIdCliente() == ventaSeleccionada.getIdCliente()) {
+                    cbxCliente.setValue(cliente);
+                    break;
+                }
+            }
+            
             txtSubtotal.setText(String.valueOf(ventaSeleccionada.getSubtotal()));
             txtIva.setText(String.valueOf(ventaSeleccionada.getIva()));
             txtTotal.setText(String.valueOf(ventaSeleccionada.getTotal()));
-            cbMetodoPago.setValue(ventaSeleccionada.getMetodoPago());
-            txtUsuarioId.setText(String.valueOf(ventaSeleccionada.getUsuarioId()));
-            cbFacturada.setValue(ventaSeleccionada.getFacturada());
+            cbxMetodoPago.setValue(ventaSeleccionada.getMetodoPago());
+            cbxFacturada.setValue(ventaSeleccionada.getFacturada());
             txtFolioFactura.setText(ventaSeleccionada.getFolioFactura());
         }
     }
@@ -110,39 +162,44 @@ public class VentasController implements Initializable {
             ResultSet resultado = enunciado.executeQuery();
             while (resultado.next()){
                 ventas.add(new Venta(
-                    resultado.getInt(1),
-                    resultado.getInt(2),
-                    resultado.getTimestamp(3).toLocalDateTime().toString(),
-                    resultado.getFloat(4),
-                    resultado.getFloat(5),
-                    resultado.getFloat(6),
-                    resultado.getString(7),
-                    resultado.getInt(8),
-                    resultado.getString(9),
-                    resultado.getString(10)
+                    resultado.getInt("IdVenta"),        
+                    resultado.getInt("ClienteId"),        
+                    resultado.getTimestamp("FechaVenta").toLocalDateTime().toString(), 
+                    resultado.getFloat("Subtotal"),       
+                    resultado.getFloat("Iva"),          
+                    resultado.getFloat("Total"),       
+                    resultado.getString("MetodoPago"),   
+                    resultado.getString("Facturada"),    
+                    resultado.getString("FolioFactura") 
                 ));
             }
         } catch (SQLException e) {
             System.out.println("Error al cargar ventas: " + e.getMessage());
+            e.printStackTrace(); // Para más detalles del error
         }
         return ventas;
     }
     
     private Venta getModeloVenta(){
         int idVenta = txtID.getText().isEmpty() ? 0 : Integer.parseInt(txtID.getText());
-        int idCliente = Integer.parseInt(txtClienteId.getText());
+        int idCliente = cbxCliente.getValue().getIdCliente();
         String fechaVenta = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         float subtotal = Float.parseFloat(txtSubtotal.getText());
         float iva = Float.parseFloat(txtIva.getText());
         float total = Float.parseFloat(txtTotal.getText());
-        String metodoPago = cbMetodoPago.getValue();
-        int usuarioId = Integer.parseInt(txtUsuarioId.getText());
-        String facturada = cbFacturada.getValue();
-        String folioFactura = txtFolioFactura.getText();
-        
+        String metodoPago = cbxMetodoPago.getValue();
+        String facturada = cbxFacturada.getValue(); 
+
         return new Venta(
-            idVenta, idCliente, fechaVenta, subtotal, iva, total, 
-            metodoPago, usuarioId, facturada, folioFactura
+            idVenta, 
+            idCliente, 
+            fechaVenta, 
+            subtotal, 
+            iva, 
+            total, 
+            metodoPago, 
+            facturada, 
+            txtFolioFactura.getText()
         );
     }
     
@@ -151,20 +208,18 @@ public class VentasController implements Initializable {
         
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                .prepareCall("{call sp_AgregarVenta(?,?,?,?,?,?,?,?,?)}");
+                .prepareCall("{call sp_AgregarVenta(?,?,?,?,?,?,?,?)}");
             enunciado.setInt(1, modeloVenta.getIdCliente());
             enunciado.setFloat(2, modeloVenta.getSubtotal());
             enunciado.setFloat(3, modeloVenta.getIva());
             enunciado.setFloat(4, modeloVenta.getTotal());
             enunciado.setString(5, modeloVenta.getMetodoPago());
-            enunciado.setInt(6, modeloVenta.getUsuarioId());
-            enunciado.setString(7, modeloVenta.getFacturada());
-            enunciado.setString(8, modeloVenta.getFolioFactura());
-            enunciado.registerOutParameter(9, java.sql.Types.INTEGER);
+            enunciado.setString(6, modeloVenta.getFacturada());
+            enunciado.setString(7, modeloVenta.getFolioFactura());
+            enunciado.registerOutParameter(8, java.sql.Types.INTEGER);
             enunciado.execute();
             
-            // Obtener el ID de la venta recién creada
-            int nuevoId = enunciado.getInt(9);
+            int nuevoId = enunciado.getInt(8);
             cargarDatos();
         } catch (SQLException ex) {
             System.out.println("Error al agregar venta:" + ex.getSQLState());
@@ -176,23 +231,22 @@ public class VentasController implements Initializable {
         modeloVenta = getModeloVenta();
         try {
             CallableStatement enunciado = Conexion.getInstancia().getConexion()
-                .prepareCall("{call sp_ActualizarVenta(?,?,?,?,?,?,?,?,?)}");
+                .prepareCall("{call sp_ActualizarVenta(?,?,?,?,?,?,?,?)}");
             enunciado.setInt(1, modeloVenta.getIdVenta());
             enunciado.setInt(2, modeloVenta.getIdCliente());
             enunciado.setFloat(3, modeloVenta.getSubtotal());
             enunciado.setFloat(4, modeloVenta.getIva());
             enunciado.setFloat(5, modeloVenta.getTotal());
             enunciado.setString(6, modeloVenta.getMetodoPago());
-            enunciado.setInt(7, modeloVenta.getUsuarioId());
-            enunciado.setBoolean(8, modeloVenta.getFacturada().equals("Facturada"));
-            enunciado.setString(9, modeloVenta.getFolioFactura());
+            enunciado.setString(7, modeloVenta.getFacturada());
+            enunciado.setString(8, modeloVenta.getFolioFactura());
             enunciado.execute();
             cargarDatos();
         } catch (SQLException e) {
             System.out.println("Error al actualizar venta: " + e.getMessage());
             e.printStackTrace();
         }
-}
+    }
     
     public void eliminarVenta(){
         modeloVenta = getModeloVenta();
@@ -209,13 +263,12 @@ public class VentasController implements Initializable {
     
     public void limpiarTexto(){
         txtID.clear();
-        txtClienteId.clear();
+        cbxCliente.getSelectionModel().clearSelection();
         txtSubtotal.clear();
         txtIva.clear();
         txtTotal.clear();
-        cbMetodoPago.getSelectionModel().clearSelection();
-        txtUsuarioId.clear();
-        cbFacturada.getSelectionModel().clearSelection();
+        cbxMetodoPago.getSelectionModel().clearSelection();
+        cbxFacturada.getSelectionModel().clearSelection();
         txtFolioFactura.clear();
     }
     
@@ -283,13 +336,12 @@ public class VentasController implements Initializable {
     }
     
     private void habilitarCampos() {
-        txtClienteId.setDisable(false);
+        cbxCliente.setDisable(false);
         txtSubtotal.setDisable(false);
         txtIva.setDisable(false);
         txtTotal.setDisable(false);
-        cbMetodoPago.setDisable(false);
-        txtUsuarioId.setDisable(false);
-        cbFacturada.setDisable(false);
+        cbxMetodoPago.setDisable(false);
+        cbxFacturada.setDisable(false);
         txtFolioFactura.setDisable(false);
 
         btnSiguiente.setDisable(true);
@@ -298,13 +350,12 @@ public class VentasController implements Initializable {
     }
 
     private void deshabilitarCampos() {
-        txtClienteId.setDisable(true);
+        cbxCliente.setDisable(true);
         txtSubtotal.setDisable(true);
         txtIva.setDisable(true);
         txtTotal.setDisable(true);
-        cbMetodoPago.setDisable(true);
-        txtUsuarioId.setDisable(true);
-        cbFacturada.setDisable(true);
+        cbxMetodoPago.setDisable(true);
+        cbxFacturada.setDisable(true);
         txtFolioFactura.setDisable(true);
 
         btnSiguiente.setDisable(false);
@@ -356,18 +407,17 @@ public class VentasController implements Initializable {
     }
     
     private void cambiarEstado(boolean estado) {
-        txtClienteId.setDisable(estado);
+        cbxCliente.setDisable(estado);
         txtSubtotal.setDisable(estado);
         txtIva.setDisable(estado);
         txtTotal.setDisable(estado);
-        cbMetodoPago.setDisable(estado);
-        txtUsuarioId.setDisable(estado);
-        cbFacturada.setDisable(estado);
+        cbxMetodoPago.setDisable(estado);
+        cbxFacturada.setDisable(estado);
         txtFolioFactura.setDisable(estado);
     }
     
     private void habilitarDeshabilitarNodo(){
-        boolean deshabilitado = txtClienteId.isDisable();
+        boolean deshabilitado = cbxCliente.isDisable();
         cambiarEstado(!deshabilitado);
         btnSiguiente.setDisable(deshabilitado);
         btnAnterior.setDisable(deshabilitado);
@@ -392,27 +442,23 @@ public class VentasController implements Initializable {
     private boolean validarFormulario() {
         if(cancelando) return true; 
         
-        if (txtClienteId.getText().isEmpty() || txtSubtotal.getText().isEmpty() || 
+        if (cbxCliente.getValue() == null || txtSubtotal.getText().isEmpty() || 
             txtIva.getText().isEmpty() || txtTotal.getText().isEmpty() || 
-            cbMetodoPago.getValue() == null || txtUsuarioId.getText().isEmpty() || 
-            cbFacturada.getValue() == null) {
+            cbxMetodoPago.getValue() == null || cbxFacturada.getValue() == null) {
             mostrarAlerta("Campos vacíos", "Por favor, complete todos los campos obligatorios.");
             return false;
         }
         
         try {
-            int clienteId = Integer.parseInt(txtClienteId.getText());
             float subtotal = Float.parseFloat(txtSubtotal.getText());
             float iva = Float.parseFloat(txtIva.getText());
             float total = Float.parseFloat(txtTotal.getText());
-            int usuarioId = Integer.parseInt(txtUsuarioId.getText());
             
-            if (clienteId <= 0 || usuarioId <= 0 || subtotal <= 0 || iva < 0 || total <= 0) {
-                mostrarAlerta("Valores inválidos", "Los IDs y valores monetarios deben ser positivos.");
+            if (subtotal <= 0 || iva < 0 || total <= 0) {
+                mostrarAlerta("Valores inválidos", "Los valores monetarios deben ser positivos.");
                 return false;
             }
             
-            // Validar que el total sea igual a subtotal + iva
             float calculado = subtotal + iva;
             if (Math.abs(calculado - total) > 0.01) {
                 mostrarAlerta("Error en cálculos", "El total debe ser igual a Subtotal + IVA");
@@ -424,8 +470,7 @@ public class VentasController implements Initializable {
             return false;
         }
         
-        // Validación adicional para folio factura si está facturada
-        if (cbFacturada.getValue().equals("Facturada") && txtFolioFactura.getText().isEmpty()) {
+        if (cbxFacturada.getValue().equals("Facturada") && txtFolioFactura.getText().isEmpty()) {
             mostrarAlerta("Folio requerido", "Debe ingresar un folio de factura para ventas facturadas");
             return false;
         }
@@ -439,6 +484,11 @@ public class VentasController implements Initializable {
         mensaje.setHeaderText(titulo);
         mensaje.setContentText(razon);
         mensaje.showAndWait();
+    }
+    
+    private void mostrarError(String titulo, String mensaje) {
+        System.err.println(titulo + ": " + mensaje);
+        mostrarAlerta(titulo, mensaje);
     }
    
     public void VolverOnActionEvent(ActionEvent e) {

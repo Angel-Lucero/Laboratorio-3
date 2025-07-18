@@ -157,8 +157,7 @@ public class MovimientosInventarioController implements Initializable {
                     rs.getFloat("Iva"),
                     rs.getFloat("Total"),
                     rs.getString("MetodoPago"),
-                    rs.getInt("UsuarioId"),
-                    rs.getString("Facturada"),
+                    rs.getString("Facturada"), 
                     rs.getString("FolioFactura")
                 );
                 listaVentas.add(venta);
@@ -167,7 +166,7 @@ public class MovimientosInventarioController implements Initializable {
         } catch (SQLException e) {
             mostrarError("Error al cargar ventas", e.getMessage());
             e.printStackTrace();
-       }
+        }
     }
     
     private void cargarDatos() {

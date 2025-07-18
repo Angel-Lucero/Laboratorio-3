@@ -13,11 +13,10 @@ public class Venta {
     private float iva;
     private float total;
     private String metodoPago;
-    private int usuarioId;
     private String facturada;
     private String folioFactura;
 
-    public Venta(int idVenta, int idCliente, String fechaVenta, float subtotal, float iva, float total, String metodoPago, int usuarioId, String facturada, String folioFactura) {
+    public Venta(int idVenta, int idCliente, String fechaVenta, float subtotal, float iva, float total, String metodoPago, String facturada, String folioFactura) {
         this.idVenta = idVenta;
         this.idCliente = idCliente;
         this.fechaVenta = fechaVenta;
@@ -25,11 +24,10 @@ public class Venta {
         this.iva = iva;
         this.total = total;
         this.metodoPago = metodoPago;
-        this.usuarioId = usuarioId;
         this.facturada = facturada;
         this.folioFactura = folioFactura;
     }
-
+    
     public int getIdVenta() {
         return idVenta;
     }
@@ -86,14 +84,6 @@ public class Venta {
         this.metodoPago = metodoPago;
     }
 
-    public int getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(int usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
     public String getFacturada() {
         return facturada;
     }
@@ -108,12 +98,10 @@ public class Venta {
 
     public void setFolioFactura(String folioFactura) {
         this.folioFactura = folioFactura;
-    }   
-
-    @Override
-    public String toString() {
-        return "ID: " + idVenta + ", Cliente: " + idCliente + ", Total: " + total + ", Metodo: " + metodoPago + ", Factuaración: " + facturada;
     }
     
-    
+        @Override
+    public String toString() {
+        return "ID: " + idVenta + ", Cliente: " + idCliente + ", Total: " + total + ", Metodo: " + metodoPago + ", Factuaración: " + facturada;
+    } 
 }
