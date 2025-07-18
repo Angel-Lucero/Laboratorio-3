@@ -23,11 +23,19 @@ import org.laboratorio.model.Especificacion;
 import org.laboratorio.system.Main;
 
 import static javafx.scene.control.Alert.AlertType.WARNING;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import org.laboratorio.model.Producto;
 
+/**
+ *
+ * @author Lu0
+ */
 public class EspecificacionesController implements Initializable {
     private Main principal;
     private Especificacion modeloEspecificacion;
     private ObservableList<Especificacion> listarEspecificaciones;
+    private ObservableList<Producto> productosList;
     private enum Acciones {AGREGAR, EDITAR, ELIMINAR, NINGUNA}
     private Acciones accion = Acciones.NINGUNA;
     private boolean cancelando = false;
@@ -35,8 +43,8 @@ public class EspecificacionesController implements Initializable {
     @FXML private Button btnAnterior, btnSiguiente, btnNuevo, btnEditar, btnEliminar, btnReporte;
     @FXML private TableView<Especificacion> tablaEspecificaciones;
     @FXML private TableColumn colId, colProductoId, colCaracteristica, colValor, colUnidad;
-    @FXML private TextField txtID, txtProductoId, txtCaracteristica, txtValor, txtUnidad, txtBuscar;
-    
+    @FXML private TextField txtID, txtCaracteristica, txtValor, txtUnidad, txtBuscar;
+    @FXML private ComboBox<Producto> cbxProducto;
     public void setPrincipal(Main principal) {
         this.principal = principal;
     }
@@ -44,6 +52,7 @@ public class EspecificacionesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         setFormatoColumnaModelo();
+        cargarProductos();
         cargarDatos();
         tablaEspecificaciones.setOnMouseClicked(eventHandler -> getEspecificacionTextField());
         deshabilitarCampos(); 
@@ -69,7 +78,11 @@ public class EspecificacionesController implements Initializable {
         Especificacion especificacionSeleccionada = tablaEspecificaciones.getSelectionModel().getSelectedItem();
         if (especificacionSeleccionada != null) {
             txtID.setText(String.valueOf(especificacionSeleccionada.getIdEspecificacion()));
-            txtProductoId.setText(String.valueOf(especificacionSeleccionada.getIdProducto()));
+            productosList.stream()
+                .filter(p -> p.getIdProducto() == especificacionSeleccionada.getIdProducto())
+                .findFirst()
+                .ifPresent(cbxProducto::setValue);
+
             txtCaracteristica.setText(especificacionSeleccionada.getCaracteristica());
             txtValor.setText(especificacionSeleccionada.getValor());
             txtUnidad.setText(especificacionSeleccionada.getUnidad());
@@ -100,11 +113,11 @@ public class EspecificacionesController implements Initializable {
     
     private Especificacion getModeloEspecificacion(){
         int idEspecificacion = txtID.getText().isEmpty() ? 0 : Integer.parseInt(txtID.getText());
-        int idProducto = Integer.parseInt(txtProductoId.getText());
+        int idProducto = cbxProducto.getValue() != null ? cbxProducto.getValue().getIdProducto() : 0;
         String caracteristica = txtCaracteristica.getText();
         String valor = txtValor.getText();
         String unidad = txtUnidad.getText();
-        
+
         return new Especificacion(
             idEspecificacion, idProducto, caracteristica, valor, unidad
         );
@@ -159,9 +172,61 @@ public class EspecificacionesController implements Initializable {
         }
     }
     
+    private void cargarProductos() {
+    try {
+        Connection conexion = Conexion.getInstancia().getConexion();
+        String sql = "{call sp_ListarProductos}"; 
+        CallableStatement stmt = conexion.prepareCall(sql);
+        ResultSet rs = stmt.executeQuery();
+        
+        productosList.clear();
+        while (rs.next()) {
+            productosList.add(new Producto(
+                rs.getInt("idProducto"),
+                rs.getString("nombre"),
+                rs.getString("descripcion"),
+                rs.getString("marca"),
+                rs.getString("modelo"),
+                rs.getFloat("precioVenta"),
+                rs.getInt("stockMinimo"),
+                rs.getInt("categoriaId"),
+                rs.getInt("garantiaMeses"),
+                rs.getString("color"),
+                rs.getFloat("peso"),
+                rs.getString("dimensiones"),
+                rs.getString("UrlImagen"),
+                rs.getDate("fechaCreacion").toLocalDate()
+            ));
+        }
+        
+        cbxProducto.setItems(productosList);
+        
+        cbxProducto.setCellFactory(lv -> new ListCell<Producto>() {
+            @Override
+            protected void updateItem(Producto item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? null : item.getNombre() + " | " + item.getMarca() + " | " + item.getModelo());
+            }
+        });
+        
+        cbxProducto.setButtonCell(new ListCell<Producto>() {
+            @Override
+            protected void updateItem(Producto item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "Seleccione un producto" : item.getNombre() + " | " + item.getMarca());
+            }
+        });
+        
+    } catch (SQLException e) {
+        System.out.println("Error al cargar productos: " + e.getMessage());
+        mostrarAlerta("Error", "No se pudieron cargar los productos");
+    }
+}
+    
+    
     public void limpiarTexto(){
         txtID.clear();
-        txtProductoId.clear();
+        cbxProducto.getSelectionModel().clearSelection();
         txtCaracteristica.clear();
         txtValor.clear();
         txtUnidad.clear();
@@ -229,7 +294,7 @@ public class EspecificacionesController implements Initializable {
     }
     
     private void habilitarCampos() {
-        txtProductoId.setDisable(false);
+        cbxProducto.setDisable(false);
         txtCaracteristica.setDisable(false);
         txtValor.setDisable(false);
         txtUnidad.setDisable(false);
@@ -240,7 +305,7 @@ public class EspecificacionesController implements Initializable {
     }
 
     private void deshabilitarCampos() {
-        txtProductoId.setDisable(true);
+        cbxProducto.setDisable(true);
         txtCaracteristica.setDisable(true);
         txtValor.setDisable(true);
         txtUnidad.setDisable(true);
@@ -294,14 +359,14 @@ public class EspecificacionesController implements Initializable {
     }
     
     private void cambiarEstado(boolean estado) {
-        txtProductoId.setDisable(estado);
+        cbxProducto.setDisable(estado);
         txtCaracteristica.setDisable(estado);
         txtValor.setDisable(estado);
         txtUnidad.setDisable(estado);
     }
     
     private void habilitarDeshabilitarNodo(){
-        boolean deshabilitado = txtProductoId.isDisable();
+        boolean deshabilitado = cbxProducto.isDisable();
         cambiarEstado(!deshabilitado);
         btnSiguiente.setDisable(deshabilitado);
         btnAnterior.setDisable(deshabilitado);
@@ -326,23 +391,18 @@ public class EspecificacionesController implements Initializable {
     private boolean validarFormulario() {
         if(cancelando) return true; 
         
-        if (txtProductoId.getText().isEmpty() || txtCaracteristica.getText().isEmpty() || 
-            txtValor.getText().isEmpty()) {
-            mostrarAlerta("Campos vacíos", "Por favor, complete los campos obligatorios (Producto ID, Característica y Valor).");
-            return false;
-        }
-        
-        try {
-            int productoId = Integer.parseInt(txtProductoId.getText());
-            if (productoId <= 0) {
-                mostrarAlerta("ID de Producto inválido", "El ID de Producto debe ser un número positivo.");
+        if (cbxProducto.getValue() == null) {
+                mostrarAlerta("Selección requerida", "Debe seleccionar un producto");
                 return false;
-            }
-        } catch (NumberFormatException e) {
-            mostrarAlerta("Formato incorrecto", "El ID de Producto debe ser un número válido.");
+         }   
+        if (txtCaracteristica.getText().trim().isEmpty()) {
+            mostrarAlerta("Campo requerido", "La característica es obligatoria");
             return false;
         }
-        
+        if (txtValor.getText().trim().isEmpty()) {
+            mostrarAlerta("Campo requerido", "El valor es obligatorio");
+            return false;
+        }     
         return true;
     }
     

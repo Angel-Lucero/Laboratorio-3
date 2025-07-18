@@ -8,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import org.laboratorio.controller.*;
 
@@ -74,7 +73,7 @@ public class Main extends Application {
     public void getNuevoUsuarioView(){
         try {
             NuevoUsuarioController control =
-                    (NuevoUsuarioController) cambiarEscena("NuevoUsuarioView.fxml",1000,800);
+                    (NuevoUsuarioController) cambiarEscena("NuevoUsuarioView.fxml",520,400);
             control.setPrincipal(this);
         } catch (Exception ex) {
             System.out.println("Error al ir a Inicio"+ex.getMessage());

@@ -60,6 +60,12 @@ public class Especificacion {
         this.unidad = unidad;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + idEspecificacion + ", Producto: " + idProducto + ", Valor: " + valor ;
+    }
+
+    
     
 
 }

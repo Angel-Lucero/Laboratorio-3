@@ -69,6 +69,11 @@ public class Proveedor {
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
     }
+
+    @Override
+    public String toString() {
+        return "ID: " + idProveedor + ", Nombre: " + nombre + ", Telefono: " + telefono;
+    }
     
     
 }

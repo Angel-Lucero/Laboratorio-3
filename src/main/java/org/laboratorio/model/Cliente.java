@@ -81,4 +81,10 @@ public class Cliente {
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     } 
+
+    @Override
+    public String toString() {
+        return "ID: " + idCliente + ", Nombre: " + nombre + ", Apellidos: " + apellidos;
+    }
+    
 }

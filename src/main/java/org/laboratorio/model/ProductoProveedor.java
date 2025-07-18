@@ -70,5 +70,10 @@ public class ProductoProveedor {
         this.diasEntrega = diasEntrega;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + ", Relacion: " + idRelacion + ", Precio: " + precioCompra + ", Entrega en:" + diasEntrega + "dias";
+    }
+
     
 }

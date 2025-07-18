@@ -152,6 +152,11 @@ public class Producto {
     public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
+    
+    @Override
+    public String toString() {
+        return "ID: " + idProducto + ", Nombre: " + nombre + ", Marca: " + marca + ", Modelo: " + modelo;
+    }
 
     
 }

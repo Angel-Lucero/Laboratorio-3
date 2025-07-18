@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.robertomilian</groupId>
+    <groupId>org.laboratorio</groupId>
     <artifactId>Laboratorio_S5B3</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
@@ -45,6 +45,21 @@
         </dependency>
     </dependencies>
     <build>
+        <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+        </resource>
+        <resource>
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/*.png</include>
+                <include>**/*.jpg</include>
+                <include>**/*.fxml</include>
+                <include>**/*.css</include>
+            </includes>
+        </resource>
+    </resources>
+        
         <plugins>
             <plugin>
                 <groupId>org.openjfx</groupId>

@@ -24,6 +24,13 @@ import org.laboratorio.database.Conexion;
 import org.laboratorio.model.Producto;
 import org.laboratorio.system.Main;
 import static javafx.scene.control.Alert.AlertType.WARNING;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import org.laboratorio.model.Categoria;
 
 /**
  * FXML Controller class
@@ -34,6 +41,7 @@ public class ProductosController implements Initializable {
     private Main principal;
     private Producto modeloProducto;
     private ObservableList<Producto> listarProductos;
+    private ObservableList<Categoria> categoriasList = FXCollections.observableArrayList();
     private enum Acciones {AGREGAR, EDITAR, ELIMINAR, NINGUNA}
     private Acciones accion = Acciones.NINGUNA;
     private boolean cancelando = false;
@@ -45,9 +53,13 @@ public class ProductosController implements Initializable {
             colGarantiaMeses, colColor, colPeso, colDimensiones, 
             colActivo, colFechaCreacion;
     @FXML private TextField txtID, txtNombre, txtDescripcion, txtMarca, 
-        txtModelo, txtPrecioVenta, txtStockMinimo, txtCategoriaId, 
-        txtGarantiaMeses, txtColor, txtPeso, txtDimensiones, txtUrlImagen, txtBuscar;
+        txtModelo, txtPrecioVenta, txtStockMinimo,txtGarantiaMeses, txtColor,
+            txtDimensiones, txtUrlImagen, txtBuscar;
+    @FXML private Spinner<Double> spnPeso; 
+    @FXML private ImageView imgProducto; 
     @FXML private DatePicker dpFechaCreacion;
+    @FXML private ComboBox<Categoria> cbxCategoria;
+        
 
     public void setPrincipal(Main principal) {
         this.principal = principal;
@@ -55,11 +67,48 @@ public class ProductosController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        configurarSpinner();
         setFormatoColumnaModelo();
         cargarDatos();
+        cargarCategorias();
         tablaProductos.setOnMouseClicked(eventHandler -> getProductoTextField());
         deshabilitarCampos(); 
-    }  
+        txtUrlImagen.textProperty().addListener((observable, oldValue, newValue) -> {
+            cargarImagen(newValue);
+        });
+    }
+      
+    
+    private void configurarSpinner() {
+        SpinnerValueFactory<Double> valueFactory = 
+            new SpinnerValueFactory.DoubleSpinnerValueFactory(0.1, 1000.0, 5.0, 0.1);
+        spnPeso.setValueFactory(valueFactory);
+    }
+    
+    private void cargarImagen(String nombreImagen) {
+        if (nombreImagen != null && !nombreImagen.isEmpty()) {
+            try {
+                String rutaImagen = "/org/laboratorio/image/" + nombreImagen + ".png";
+                Image image = new Image(getClass().getResourceAsStream(rutaImagen));
+                imgProducto.setImage(image);
+            } catch (Exception e) {
+                cargarImagenPorDefecto();
+            }
+        } else {
+            cargarImagenPorDefecto();
+        }
+    }
+    
+    private void cargarImagenPorDefecto() {
+        try {
+            Image defaultImage = new Image(getClass().getResourceAsStream(
+                "/org/laboratorio/image/default.png"));
+            imgProducto.setImage(defaultImage);
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar la imagen por defecto");
+            imgProducto.setImage(null);
+        }
+    }
     
     public void setFormatoColumnaModelo(){
         colId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
@@ -95,13 +144,66 @@ public class ProductosController implements Initializable {
             txtModelo.setText(productoSeleccionado.getModelo());
             txtPrecioVenta.setText(String.valueOf(productoSeleccionado.getPrecioVenta()));
             txtStockMinimo.setText(String.valueOf(productoSeleccionado.getStockMinimo()));
-            txtCategoriaId.setText(String.valueOf(productoSeleccionado.getCategoriaId()));
             txtGarantiaMeses.setText(String.valueOf(productoSeleccionado.getGarantiaMeses()));
             txtColor.setText(productoSeleccionado.getColor());
-            txtPeso.setText(String.valueOf(productoSeleccionado.getPeso()));
+            spnPeso.getValueFactory().setValue((double)productoSeleccionado.getPeso());
             txtDimensiones.setText(productoSeleccionado.getDimensiones());
             txtUrlImagen.setText(productoSeleccionado.getUrlImagen());
             dpFechaCreacion.setValue(productoSeleccionado.getFechaCreacion());
+            
+            if (productoSeleccionado.getCategoriaId() > 0) {
+                cbxCategoria.getSelectionModel().clearSelection();
+                for (Categoria cat : categoriasList) {
+                    if (cat.getIdCategoria() == productoSeleccionado.getCategoriaId()) {
+                        cbxCategoria.getSelectionModel().select(cat);
+                        break;
+                    }
+                }
+            }
+            
+            cargarImagen(productoSeleccionado.getUrlImagen());
+        }
+    }
+    
+    private void cargarCategorias() {
+        try {
+            Connection conexion = Conexion.getInstancia().getConexion();
+            String sql = "{call sp_ListarCategorias}";
+            CallableStatement stmt = conexion.prepareCall(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            categoriasList.clear();
+            while (rs.next()) {
+                categoriasList.add(new Categoria(
+                    rs.getInt("idCategoria"),
+                    rs.getString("nombre"),
+                    rs.getString("descripcion"),
+                    rs.getString("tipo")
+                        
+                ));
+            }
+
+            cbxCategoria.setItems(categoriasList);
+
+            cbxCategoria.setCellFactory(lv -> new ListCell<Categoria>() {
+                @Override
+                protected void updateItem(Categoria item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty ? null : item.getNombre() + " - " + item.getTipo());
+                }
+            });
+
+            cbxCategoria.setButtonCell(new ListCell<Categoria>() {
+                @Override
+                protected void updateItem(Categoria item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty ? "Seleccione categoría" : item.getNombre() + " - " + item.getTipo());
+                }
+            });
+
+        } catch (SQLException e) {
+            System.out.println("Error al cargar categorías: " + e.getMessage());
+            mostrarAlerta("Error", "No se pudieron cargar las categorías");
         }
     }
     
@@ -136,18 +238,28 @@ public class ProductosController implements Initializable {
         return productos;
     }
     
-    private Producto getModeloProducto(){
+    private Producto getModeloProducto() throws NumberFormatException {
         int idProducto = txtID.getText().isEmpty() ? 0 : Integer.parseInt(txtID.getText());
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
         String marca = txtMarca.getText();
         String modelo = txtModelo.getText();
-        float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
-        int stockMinimo = Integer.parseInt(txtStockMinimo.getText());
-        int categoriaId = Integer.parseInt(txtCategoriaId.getText());
-        int garantiaMeses = Integer.parseInt(txtGarantiaMeses.getText());
+
+        float precioVenta;
+        int stockMinimo, categoriaId, garantiaMeses;
+
+        try {
+            precioVenta = Float.parseFloat(txtPrecioVenta.getText());
+            stockMinimo = Integer.parseInt(txtStockMinimo.getText());
+            categoriaId = cbxCategoria.getValue() != null ? cbxCategoria.getValue().getIdCategoria() : 0;
+            garantiaMeses = Integer.parseInt(txtGarantiaMeses.getText());
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Error de formato", "Los campos numéricos deben contener solo números");
+            throw e; 
+        }
+
         String color = txtColor.getText();
-        float peso = Float.parseFloat(txtPeso.getText());
+        float peso = spnPeso.getValue().floatValue(); 
         String dimensiones = txtDimensiones.getText();
         String urlImagen = txtUrlImagen.getText();
         LocalDate fechaCreacion = dpFechaCreacion.getValue();
@@ -232,11 +344,11 @@ public class ProductosController implements Initializable {
        txtModelo.clear();
        txtPrecioVenta.clear();
        txtStockMinimo.clear();
-       txtCategoriaId.clear();
+       cbxCategoria.getSelectionModel().clearSelection();
        txtGarantiaMeses.clear();
        txtColor.clear();
-       txtPeso.clear();
        txtDimensiones.clear();
+       spnPeso.getValueFactory().setValue(0.0);
        txtUrlImagen.clear();
        dpFechaCreacion.setValue(LocalDate.now());
     }
@@ -254,19 +366,25 @@ public class ProductosController implements Initializable {
                 deshabilitarNavegacion(); 
                 break;
             case AGREGAR:
-                if(validarFormulario()){
-                    agregarProducto();
-                    cambiarOriginal();
-                    deshabilitarCampos(); 
-                    habilitarNavegacion(); 
+                try {
+                    if(validarFormulario()){
+                        agregarProducto();
+                        cambiarOriginal();
+                        deshabilitarCampos(); 
+                        habilitarNavegacion(); 
+                    }
+                } catch (NumberFormatException e) {
                 }
                 break;
             case EDITAR:
-                if (validarFormulario()) {
-                    editarProducto();
-                    cambiarOriginal();
-                    deshabilitarCampos(); 
-                    habilitarNavegacion(); 
+                try {
+                    if (validarFormulario()) {
+                        editarProducto();
+                        cambiarOriginal();
+                        deshabilitarCampos(); 
+                        habilitarNavegacion(); 
+                    }
+                } catch (NumberFormatException e) {
                 }
                 break;
         }
@@ -302,17 +420,17 @@ public class ProductosController implements Initializable {
         }    
     }
     
-    private void habilitarCampos() {
+     private void habilitarCampos() {
         txtNombre.setDisable(false);
         txtDescripcion.setDisable(false);
         txtMarca.setDisable(false);
         txtModelo.setDisable(false);
         txtPrecioVenta.setDisable(false);
         txtStockMinimo.setDisable(false);
-        txtCategoriaId.setDisable(false);
+        cbxCategoria.setDisable(false);
         txtGarantiaMeses.setDisable(false);
         txtColor.setDisable(false);
-        txtPeso.setDisable(false);
+        spnPeso.setDisable(false);
         txtDimensiones.setDisable(false);
         txtUrlImagen.setDisable(false);
         dpFechaCreacion.setDisable(false);
@@ -329,10 +447,10 @@ public class ProductosController implements Initializable {
         txtModelo.setDisable(true);
         txtPrecioVenta.setDisable(true);
         txtStockMinimo.setDisable(true);
-        txtCategoriaId.setDisable(true);
+        cbxCategoria.setDisable(true);
         txtGarantiaMeses.setDisable(true);
         txtColor.setDisable(true);
-        txtPeso.setDisable(true);
+        spnPeso.setDisable(true);
         txtDimensiones.setDisable(true);
         txtUrlImagen.setDisable(true);
         dpFechaCreacion.setDisable(true);
@@ -392,10 +510,9 @@ public class ProductosController implements Initializable {
         txtModelo.setDisable(estado);
         txtPrecioVenta.setDisable(estado);
         txtStockMinimo.setDisable(estado);
-        txtCategoriaId.setDisable(estado);
+        cbxCategoria.setDisable(estado);
         txtGarantiaMeses.setDisable(estado);
         txtColor.setDisable(estado);
-        txtPeso.setDisable(estado);
         txtDimensiones.setDisable(estado);
         txtUrlImagen.setDisable(estado);
         dpFechaCreacion.setDisable(estado);
@@ -425,30 +542,54 @@ public class ProductosController implements Initializable {
     }
     
     private boolean validarFormulario() {
-        if(cancelando) return true; 
-        
-        if (txtNombre.getText().isEmpty() || txtPrecioVenta.getText().isEmpty() || 
-            txtStockMinimo.getText().isEmpty() || txtCategoriaId.getText().isEmpty() || 
-            txtUrlImagen.getText().isEmpty() || dpFechaCreacion.getValue() == null) {
-            mostrarAlerta("Campos vacíos", "Por favor, complete todos los campos obligatorios.");
+        if (cancelando) return true;
+
+        if (txtNombre.getText().isEmpty() || 
+            txtPrecioVenta.getText().isEmpty() || 
+            txtStockMinimo.getText().isEmpty() || 
+            cbxCategoria.getValue() == null) {
+            mostrarAlerta("Campos vacíos", "Complete todos los campos obligatorios (*)");
             return false;
         }
         
+        if (txtNombre.getText().trim().isEmpty()) {
+            mostrarAlerta("Campo requerido", "El nombre del producto es obligatorio");
+            return false;
+        }
+
+        if (txtPrecioVenta.getText().trim().isEmpty()) {
+            mostrarAlerta("Campo requerido", "El precio de venta es obligatorio");
+            return false;
+        }
+
+        if (txtStockMinimo.getText().trim().isEmpty()) {
+            mostrarAlerta("Campo requerido", "El stock mínimo es obligatorio");
+            return false;
+        }
+
+        if (cbxCategoria.getValue() == null) { 
+            mostrarAlerta("Campo requerido", "Debe seleccionar una categoría");
+            return false;
+        }
+ 
         try {
             float precioVenta = Float.parseFloat(txtPrecioVenta.getText());
             int stockMinimo = Integer.parseInt(txtStockMinimo.getText());
-            int categoriaId = Integer.parseInt(txtCategoriaId.getText());
-            
-            if (precioVenta <= 0 || stockMinimo < 0 || categoriaId <= 0) {
-                mostrarAlerta("Valores inválidos", "Los valores numéricos deben ser positivos.");
+
+            if (precioVenta <= 0) {
+                mostrarAlerta("Valor inválido", "El precio debe ser mayor a 0");
                 return false;
             }
-            
+
+            if (stockMinimo < 0) {
+                mostrarAlerta("Valor inválido", "El stock mínimo no puede ser negativo");
+                return false;
+            }
+
         } catch (NumberFormatException e) {
-            mostrarAlerta("Formato incorrecto", "Por favor, ingrese valores numéricos válidos.");
+            mostrarAlerta("Formato incorrecto", "Los campos numéricos deben contener solo números");
             return false;
         }
-        
         return true;
     }
     

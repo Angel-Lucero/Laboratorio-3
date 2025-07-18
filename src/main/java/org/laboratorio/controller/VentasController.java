@@ -5,7 +5,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -185,7 +184,7 @@ public class VentasController implements Initializable {
             enunciado.setFloat(5, modeloVenta.getTotal());
             enunciado.setString(6, modeloVenta.getMetodoPago());
             enunciado.setInt(7, modeloVenta.getUsuarioId());
-            enunciado.setString(8, modeloVenta.getFacturada());
+            enunciado.setBoolean(8, modeloVenta.getFacturada().equals("Facturada"));
             enunciado.setString(9, modeloVenta.getFolioFactura());
             enunciado.execute();
             cargarDatos();
@@ -193,7 +192,7 @@ public class VentasController implements Initializable {
             System.out.println("Error al actualizar venta: " + e.getMessage());
             e.printStackTrace();
         }
-    }
+}
     
     public void eliminarVenta(){
         modeloVenta = getModeloVenta();

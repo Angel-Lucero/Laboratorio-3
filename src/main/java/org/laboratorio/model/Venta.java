@@ -109,4 +109,11 @@ public class Venta {
     public void setFolioFactura(String folioFactura) {
         this.folioFactura = folioFactura;
     }   
+
+    @Override
+    public String toString() {
+        return "ID: " + idVenta + ", Cliente: " + idCliente + ", Total: " + total + ", Metodo: " + metodoPago + ", Factuaración: " + facturada;
+    }
+    
+    
 }
