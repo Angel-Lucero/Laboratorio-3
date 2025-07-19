@@ -11,47 +11,52 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="931.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.ProductoProveedorController">
+<AnchorPane id="AnchorPane" prefHeight="529.0" prefWidth="946.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.ProductoProveedorController">
     <stylesheets>
         <URL value="@Producto_Proveedor_View.css" />
     </stylesheets>
    <children>
-      <Button layoutX="28.0" layoutY="27.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
-      <TableView fx:id="tablaProductoProveedor" layoutX="36.0" layoutY="136.0" prefHeight="259.0" prefWidth="722.0">
+      <ImageView fitHeight="534.0" fitWidth="1001.0" layoutX="-4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+           <Image url="@/org/laboratorio/image/34.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="32.0" layoutY="11.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
+      <TableView fx:id="tablaProductoProveedor" layoutX="34.0" layoutY="102.0" prefHeight="259.0" prefWidth="778.0">
          <columns>
-            <TableColumn fx:id="colId" prefWidth="135.0" text="ID Relacion" />
-            <TableColumn fx:id="colProductoId" prefWidth="148.0" text="ID Producto" />
-            <TableColumn fx:id="colProveedorId" prefWidth="111.0" text="ID Proveedor" />
-            <TableColumn fx:id="colPrecioCompra" prefWidth="150.0" text="Precio Compra" />
-            <TableColumn fx:id="colTiempoEntrega" prefWidth="174.0" text="Tiempo de Entrega" />
+            <TableColumn fx:id="colId" prefWidth="114.39999771118164" text="ID Relación" />
+            <TableColumn fx:id="colProductoId" prefWidth="115.19999694824219" text="Producto" />
+            <TableColumn fx:id="colProveedorId" prefWidth="104.0" text="Proveedor" />
+            <TableColumn fx:id="colPrecioCompra" prefWidth="228.79998779296875" text="Precio Compra" />
+            <TableColumn fx:id="colTiempoEntrega" prefWidth="215.199951171875" text="Tiempo de Entrega" />
          </columns>
       </TableView>
-      <TextField fx:id="txtBuscar" layoutX="38.0" layoutY="97.0" onAction="#btnBuscarPorRelacion" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
-      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" onAction="#btnBuscarPorRelacion" prefHeight="45.0" prefWidth="34.0">
+      <TextField fx:id="txtBuscar" layoutX="36.0" layoutY="63.0" onAction="#btnBuscarPorRelacion" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Nombre" />
+      <Button layoutX="207.0" layoutY="49.0" mnemonicParsing="false" onAction="#btnBuscarPorRelacion" prefHeight="45.0" prefWidth="34.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" onDragDetected="#btnBuscarPorRelacion" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Downloads/Buscar.png" />
+                  <Image url="@/org/laboratorio/image/Buscar.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="txtID" layoutX="119.0" layoutY="457.0" promptText="Ingrese ID" />
-      <TextField fx:id="txtPrecioCompra" layoutX="429.0" layoutY="455.0" promptText="Ingrese el Precio" />
-      <Label layoutX="321.0" layoutY="501.0" text="Tiempo de Entrega" />
-      <Label layoutX="45.0" layoutY="527.0" text="Proveedor" />
-      <Label layoutX="48.0" layoutY="494.0" text="Producto" />
-      <Label layoutX="50.0" layoutY="461.0" text="ID Relacion" />
-      <Label layoutX="337.0" layoutY="461.0" text="Precio Compra" />
-      <Button fx:id="btnReporte" layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
-      <Button fx:id="btnEditar" layoutX="691.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarEdicionRelacion" text="Editar" />
-      <Button fx:id="btnEliminar" layoutX="598.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarCancelarEliminar" text="Eliminar" />
-      <Button fx:id="btnNuevo" layoutX="509.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarNuevaRelacion" text="Agregar" />
-      <Button fx:id="btnSiguiente" layoutX="182.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnSiguienteAccion" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
-      <Button fx:id="btnAnterior" layoutX="100.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnAnteriorAccion" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
-      <Label layoutX="503.0" layoutY="44.0" text="Producto Proveedor" />
-      <TextField fx:id="txtTiempoEntrega" layoutX="435.0" layoutY="495.0" promptText="Ingrese cantidad de días" />
-      <ComboBox fx:id="cbxProducto" layoutX="118.0" layoutY="491.0" prefWidth="150.0" promptText="Elegir Producto" />
-      <ComboBox fx:id="cbxProveedor" layoutX="118.0" layoutY="522.0" prefWidth="150.0" promptText="Elegir Proveedor" />
+      <TextField fx:id="txtID" layoutX="163.0" layoutY="422.0" promptText="Ingrese ID" />
+      <TextField fx:id="txtPrecioCompra" layoutX="473.0" layoutY="420.0" promptText="Ingrese el Precio" />
+      <Label layoutX="365.0" layoutY="466.0" text="Tiempo de Entrega" />
+      <Label layoutX="89.0" layoutY="492.0" text="Proveedor" />
+      <Label layoutX="92.0" layoutY="459.0" text="Producto" />
+      <Label layoutX="94.0" layoutY="426.0" text="ID Relacion" />
+      <Label layoutX="381.0" layoutY="426.0" text="Precio Compra" />
+      <Button fx:id="btnReporte" layoutX="704.0" layoutY="372.0" mnemonicParsing="false" text="Reporte" />
+      <Button fx:id="btnEditar" layoutX="625.0" layoutY="372.0" mnemonicParsing="false" onAction="#cambiarEdicionRelacion" text="Editar" />
+      <Button fx:id="btnEliminar" layoutX="532.0" layoutY="372.0" mnemonicParsing="false" onAction="#cambiarCancelarEliminar" text="Eliminar" />
+      <Button fx:id="btnNuevo" layoutX="443.0" layoutY="372.0" mnemonicParsing="false" onAction="#cambiarNuevaRelacion" text="Agregar" />
+      <Button fx:id="btnSiguiente" layoutX="116.0" layoutY="372.0" mnemonicParsing="false" onAction="#btnSiguienteAccion" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
+      <Button fx:id="btnAnterior" layoutX="34.0" layoutY="372.0" mnemonicParsing="false" onAction="#btnAnteriorAccion" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
+      <Label layoutX="279.0" layoutY="27.0" styleClass="label-title" text="Producto Proveedor" />
+      <TextField fx:id="txtTiempoEntrega" layoutX="479.0" layoutY="460.0" promptText="Ingrese cantidad de días" />
+      <ComboBox fx:id="cbxProducto" editable="true" layoutX="162.0" layoutY="456.0" prefWidth="150.0" promptText="Elegir Producto" styleClass="column-header-background" />
+      <ComboBox fx:id="cbxProveedor" editable="true" layoutX="162.0" layoutY="487.0" prefWidth="150.0" promptText="Elegir Proveedor" styleClass="column-header-background" />
    </children>
 </AnchorPane>

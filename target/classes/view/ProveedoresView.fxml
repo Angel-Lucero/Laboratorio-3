@@ -11,11 +11,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="1057.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.ProveedoresController">
+<AnchorPane id="AnchorPane" prefHeight="523.0" prefWidth="1058.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.ProveedoresController">
     <stylesheets>
         <URL value="@Proveedores_View.css" />
     </stylesheets>
    <children>
+      <ImageView fitHeight="607.0" fitWidth="1081.0" layoutX="-1.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/org/laboratorio/image/34.png" />
+         </image>
+      </ImageView>
       <Button layoutX="26.0" layoutY="21.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
       <TableView fx:id="tablaProveedores" layoutX="34.0" layoutY="136.0" prefHeight="277.0" prefWidth="910.0">
          <columns>
@@ -32,7 +37,7 @@
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Downloads/Buscar.png" />
+                  <Image url="@/org/laboratorio/image/Buscar.png" />
                </image>
             </ImageView>
          </graphic>
@@ -43,7 +48,7 @@
       <Button fx:id="btnEliminar" layoutX="656.0" layoutY="421.0" mnemonicParsing="false" onAction="#cambiarCancelarEliminar" text="Eliminar" />
       <Button fx:id="btnEditar" layoutX="741.0" layoutY="421.0" mnemonicParsing="false" onAction="#cambiarEdicionProveedor" text="Editar" />
       <Button fx:id="btnReporte" layoutX="816.0" layoutY="421.0" mnemonicParsing="false" text="Reporte" />
-      <TextField fx:id="txtID" layoutX="136.0" layoutY="470.0" promptText="Ingrese ID" editable="false" />
+      <TextField fx:id="txtID" editable="false" layoutX="136.0" layoutY="470.0" promptText="Ingrese ID" />
       <TextField fx:id="txtEmail" layoutX="402.0" layoutY="469.0" promptText="Ingrese un Email" />
       <TextField fx:id="txtEspecialidad" layoutX="402.0" layoutY="538.0" promptText="Ingrese Especialidad" />
       <TextField fx:id="txtDireccion" layoutX="402.0" layoutY="503.0" promptText="Ingrese un Direccion" />
@@ -55,7 +60,7 @@
       <Label layoutX="77.0" layoutY="509.0" text="Nombre" />
       <Label layoutX="112.0" layoutY="475.0" text="ID" />
       <Label layoutX="356.0" layoutY="474.0" text="Email" />
-      <Label layoutX="451.0" layoutY="34.0" text="Proveedores">
+      <Label layoutX="396.0" layoutY="30.0" styleClass="label-title" text="Proveedores">
          <font>
             <Font size="48.0" />
          </font>

@@ -12,13 +12,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="931.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.EspecificacionesController">
+<AnchorPane id="AnchorPane" prefHeight="525.0" prefWidth="936.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.EspecificacionesController">
     <stylesheets>
         <URL value="@Especificaciones_View.css" />
     </stylesheets>
    <children>
+      <ImageView fitHeight="556.0" fitWidth="936.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+           <Image url="@/org/laboratorio/image/34.png" />
+         </image>
+      </ImageView>
       <Button layoutX="21.0" layoutY="23.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
-      <TableView fx:id="tablaEspecificaciones" layoutX="38.0" layoutY="137.0" prefHeight="259.0" prefWidth="842.0">
+      <TableView fx:id="tablaEspecificaciones" layoutX="35.0" layoutY="100.0" prefHeight="259.0" prefWidth="842.0">
          <columns>
             <TableColumn fx:id="colId" prefWidth="140.0" text="ID" />
             <TableColumn fx:id="colProductoId" prefWidth="177.0" text="ID Producto" />
@@ -27,36 +32,36 @@
             <TableColumn fx:id="colUnidad" prefWidth="217.60001220703123" text="Unidad" />
          </columns>
       </TableView>
-      <TextField fx:id="txtBuscar" layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Característica" />
-      <Button layoutX="209.0" layoutY="83.0" mnemonicParsing="false" onAction="#btnBuscarPorCaracteristica" prefHeight="45.0" prefWidth="34.0">
+      <TextField fx:id="txtBuscar" layoutX="37.0" layoutY="61.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar Característica" />
+      <Button layoutX="210.0" layoutY="54.0" mnemonicParsing="false" onAction="#btnBuscarPorCaracteristica" prefHeight="45.0" prefWidth="34.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Downloads/Buscar.png" />
+                  <Image url="@/org/laboratorio/image/Buscar.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="txtID" layoutX="194.0" layoutY="457.0" promptText="Ingrese ID" />
-      <TextField fx:id="txtCaracteristica" layoutX="194.0" layoutY="540.0" promptText="Ingrese Caracteristica" />
-      <TextField fx:id="txtUnidad" layoutX="475.0" layoutY="513.0" promptText="Ingrese Unidad" />
-      <TextField fx:id="txtValor" layoutX="475.0" layoutY="463.0" promptText="Ingrese un Valor" />
-      <Label layoutX="427.0" layoutY="463.0" text="Valor" />
-      <Label layoutX="422.0" layoutY="519.0" text="Unidad" />
-      <Label layoutX="119.0" layoutY="503.0" text="ID Producto" />
-      <Label layoutX="157.0" layoutY="461.0" text="ID" />
-      <Label layoutX="116.0" layoutY="545.0" text="Caracteristica" />
-      <Button fx:id="btnReporte" layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
-      <Button fx:id="btnEditar" layoutX="691.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarEdicionEspecificacion" text="Editar" />
-      <Button fx:id="btnEliminar" layoutX="598.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarCancelarEliminar" text="Eliminar" />
-      <Button fx:id="btnNuevo" layoutX="509.0" layoutY="408.0" mnemonicParsing="false" onAction="#cambiarNuevoEspecificacion" text="Agregar" />
-      <Button fx:id="btnSiguiente" layoutX="182.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnSiguienteAccion" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
-      <Button fx:id="btnAnterior" layoutX="100.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnAnteriorAccion" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
-      <Label layoutX="498.0" layoutY="48.0" text="Especificaciones Tecnicas">
+      <TextField fx:id="txtID" layoutX="196.0" layoutY="410.0" promptText="Ingrese ID" />
+      <TextField fx:id="txtCaracteristica" layoutX="196.0" layoutY="492.0" promptText="Ingrese Caracteristica" />
+      <TextField fx:id="txtUnidad" layoutX="477.0" layoutY="466.0" promptText="Ingrese Unidad" />
+      <TextField fx:id="txtValor" layoutX="477.0" layoutY="416.0" promptText="Ingrese un Valor" />
+      <Label layoutX="429.0" layoutY="424.0" text="Valor" />
+      <Label layoutX="424.0" layoutY="472.0" text="Unidad" />
+      <Label layoutX="121.0" layoutY="456.0" text="ID Producto" />
+      <Label layoutX="159.0" layoutY="414.0" text="ID" />
+      <Label layoutX="118.0" layoutY="498.0" text="Caracteristica" />
+      <Button fx:id="btnReporte" layoutX="772.0" layoutY="368.0" mnemonicParsing="false" text="Reporte" />
+      <Button fx:id="btnEditar" layoutX="693.0" layoutY="368.0" mnemonicParsing="false" onAction="#cambiarEdicionEspecificacion" text="Editar" />
+      <Button fx:id="btnEliminar" layoutX="600.0" layoutY="368.0" mnemonicParsing="false" onAction="#cambiarCancelarEliminar" text="Eliminar" />
+      <Button fx:id="btnNuevo" layoutX="511.0" layoutY="368.0" mnemonicParsing="false" onAction="#cambiarNuevoEspecificacion" text="Agregar" />
+      <Button fx:id="btnSiguiente" layoutX="184.0" layoutY="368.0" mnemonicParsing="false" onAction="#btnSiguienteAccion" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
+      <Button fx:id="btnAnterior" layoutX="102.0" layoutY="368.0" mnemonicParsing="false" onAction="#btnAnteriorAccion" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
+      <Label layoutX="264.0" layoutY="17.0" styleClass="label-title" text="Especificaciones Tecnicas">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cbxProducto" layoutX="193.0" layoutY="498.0" prefWidth="150.0" promptText="Elegir Producto" />
+      <ComboBox fx:id="cbxProducto" editable="true" layoutX="195.0" layoutY="451.0" prefWidth="150.0" promptText="Elegir Producto" styleClass="custom-combobox" />
    </children>
 </AnchorPane>

@@ -5,28 +5,19 @@
 .mainFxmlClass {
 
 
-
-
-Label {
-    -fx-text-fill: black; /* Labels en color negro */
-}
-
-/* Hacemos el texto del botón "Volver a Menu Principal" mucho más grande */
 Button[text="Volver a Menu Principal"] {
-    -fx-font-size: 24px; /* Tamaño de fuente más grande */
+    -fx-font-size: 24px; 
 }
 
-/* Si tuvieras un Label con el texto "Bienvenido" */
-/* Puedes darle un fx:id en tu FXML y referenciarlo así: */
-/* #miLabelBienvenido {
-    -fx-font-size: 24px;
-    -fx-text-fill: black;
-    -fx-font-weight: bold;
-} */
 
-Label[text="Clientes"] {
-   -fx-size: 30px;
-    -fx-background-color: transparent;
+.button {
+    -fx-background-color: #1565c0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+
 }
 .button:hover {
     -fx-background-color: #0d47a1;
@@ -40,6 +31,6 @@ Label[text="Clientes"] {
     -fx-cursor: hand;
 }
 #AnchorPane {
-    -fx-background-color: #8db7f7; /* Un azul vibrante para el fondo */
+    -fx-background-color: #8db7f7; 
 }
 }

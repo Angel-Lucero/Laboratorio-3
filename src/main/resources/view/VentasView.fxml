@@ -12,14 +12,14 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="1057.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.VentasController">
+<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="1058.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.VentasController">
     <stylesheets>
         <URL value="@Ventas_View.css" />
     </stylesheets>
    <children>
-      <ImageView fitHeight="622.0" fitWidth="1057.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="600.0" fitWidth="1057.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../org/laboratorio/image/34.png" />
+            <Image url="@/org/laboratorio/image/34.png" />
          </image>
       </ImageView>
       <Button layoutX="24.0" layoutY="23.0" mnemonicParsing="false" onAction="#VolverOnActionEvent" text="Volver a Menu Principal" />
@@ -41,7 +41,7 @@
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../org/laboratorio/image/Buscar.png" />
+                  <Image url="@/org/laboratorio/image/Buscar.png" />
                </image>
             </ImageView>
          </graphic>
@@ -64,12 +64,12 @@
       <Button fx:id="btnSiguiente" layoutX="257.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnSiguienteAccion" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
       <Button fx:id="btnAnterior" layoutX="165.0" layoutY="408.0" mnemonicParsing="false" onAction="#btnAnteriorAccion" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
       <DatePicker layoutX="573.0" layoutY="454.0" prefHeight="29.0" prefWidth="155.0" promptText="Eliga la Fecha" />
-      <Label layoutX="580.0" layoutY="54.0" text="Ventas" />
+      <Label layoutX="451.0" layoutY="61.0" styleClass="label-title" text="Ventas" />
       <Label layoutX="770.0" layoutY="493.0" text="Facturada" />
       <TextField fx:id="txtFolioFactura" layoutX="839.0" layoutY="522.0" promptText="Ingrese Datos" />
       <Label layoutX="762.0" layoutY="528.0" text="Folio Factura" />
-      <ComboBox fx:id="cbxCliente" layoutX="340.0" layoutY="489.0" prefWidth="150.0" promptText="Elegir Cliente" />
-      <ComboBox fx:id="cbxFacturada" layoutX="840.0" layoutY="490.0" prefWidth="150.0" promptText="Estado Factura" />
-      <ComboBox fx:id="cbxMetodoPago" layoutX="840.0" layoutY="456.0" prefWidth="150.0" promptText="Elegir metodo" />
+      <ComboBox fx:id="cbxCliente" editable="true" layoutX="340.0" layoutY="489.0" prefWidth="150.0" promptText="Elegir Cliente" styleClass="custom-combobox" />
+      <ComboBox fx:id="cbxFacturada" editable="true" layoutX="840.0" layoutY="490.0" prefWidth="150.0" promptText="Estado Factura" styleClass="custom-combobox" />
+      <ComboBox fx:id="cbxMetodoPago" editable="true" layoutX="840.0" layoutY="456.0" prefWidth="150.0" promptText="Elegir metodo" styleClass="custom-combobox" />
    </children>
 </AnchorPane>

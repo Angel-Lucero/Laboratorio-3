@@ -62,7 +62,7 @@ public class Main extends Application {
     public void getMenuPrincipalView(){
         try {
             MenuPrincipalController control =
-                    (MenuPrincipalController) cambiarEscena("MenuPrincipalView.fxml",1000,800);
+                    (MenuPrincipalController) cambiarEscena("MenuPrincipalView.fxml",796,522);
             control.setPrincipal(this);
         } catch (Exception ex) {
             System.out.println("Error al ir a Inicio"+ex.getMessage());
@@ -82,92 +82,92 @@ public class Main extends Application {
     }     
     
     public void getProveedoresView(){
-    try {
-        ProveedoresController control =
-                (ProveedoresController) cambiarEscena("ProveedoresView.fxml",1000,800);
-        control.setPrincipal(this);
-    } catch (Exception ex) {
-        System.out.println("Error al ir a Proveedores"+ex.getMessage());
-        ex.printStackTrace();
+        try {
+            ProveedoresController control =
+                    (ProveedoresController) cambiarEscena("ProveedoresView.fxml",1052,607);
+            control.setPrincipal(this);
+        } catch (Exception ex) {
+            System.out.println("Error al ir a Proveedores"+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}
 
-public void getProductosView(){
-    try {
-        ProductosController control =
-                (ProductosController) cambiarEscena("ProductosView.fxml",1000,800);
-        control.setPrincipal(this);
-    } catch (Exception ex) {
-        System.out.println("Error al ir a Productos"+ex.getMessage());
-        ex.printStackTrace();
+    public void getProductosView(){
+        try {
+            ProductosController control =
+                    (ProductosController) cambiarEscena("ProductosView.fxml",1144,636);
+            control.setPrincipal(this);
+        } catch (Exception ex) {
+            System.out.println("Error al ir a Productos"+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}
 
-public void getEspecificacionesView(){
-    try {
-        EspecificacionesController control =
-                (EspecificacionesController) cambiarEscena("EspecificacionesView.fxml",1000,800);
-        control.setPrincipal(this);
-    } catch (Exception ex) {
-        System.out.println("Error al ir a Especificaciones"+ex.getMessage());
-        ex.printStackTrace();
+    public void getEspecificacionesView(){
+        try {
+            EspecificacionesController control =
+                    (EspecificacionesController) cambiarEscena("EspecificacionesView.fxml",936,525);
+            control.setPrincipal(this);
+        } catch (Exception ex) {
+            System.out.println("Error al ir a Especificaciones"+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}
 
-public void getProductoProveedorView(){
-    try {
-        ProductoProveedorController control =
-                (ProductoProveedorController) cambiarEscena("ProductoProveedorView.fxml",1000,800);
-        control.setPrincipal(this);
-    } catch (Exception ex) {
-        System.out.println("Error al ir a ProductoProveedor"+ex.getMessage());
-        ex.printStackTrace();
+    public void getProductoProveedorView(){
+        try {
+            ProductoProveedorController control =
+                    (ProductoProveedorController) cambiarEscena("ProductoProveedorView.fxml",851,534);
+            control.setPrincipal(this);
+        } catch (Exception ex) {
+            System.out.println("Error al ir a ProductoProveedor"+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}
 
-public void getClientesView(){
-    try {
-        ClientesController control =
-                (ClientesController) cambiarEscena("ClientesView.fxml",1000,800);
-        control.setPrincipal(this);
-    } catch (Exception ex) {
-        System.out.println("Error al ir a Clientes"+ex.getMessage());
-        ex.printStackTrace();
+    public void getClientesView(){
+        try {
+            ClientesController control =
+                    (ClientesController) cambiarEscena("ClientesView.fxml",952,555);
+            control.setPrincipal(this);
+        } catch (Exception ex) {
+            System.out.println("Error al ir a Clientes"+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}
 
-public void getVentasView(){
-    try {
-        VentasController control =
-                (VentasController) cambiarEscena("VentasView.fxml",1000,800);
-        control.setPrincipal(this);
-    } catch (Exception ex) {
-        System.out.println("Error al ir a Ventas"+ex.getMessage());
-        ex.printStackTrace();
+    public void getVentasView(){
+        try {
+            VentasController control =
+                    (VentasController) cambiarEscena("VentasView.fxml",1057,622);
+            control.setPrincipal(this);
+        } catch (Exception ex) {
+            System.out.println("Error al ir a Ventas"+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}
 
-public void getDetalleVentaView(){
-    try {
-        DetalleVentaController control =
-                (DetalleVentaController) cambiarEscena("DetalleVentaView.fxml",1000,800);
-        control.setPrincipal(this);
-    } catch (Exception ex) {
-        System.out.println("Error al ir a DetalleVenta"+ex.getMessage());
-        ex.printStackTrace();
+    public void getDetalleVentaView(){
+        try {
+            DetalleVentaController control =
+                    (DetalleVentaController) cambiarEscena("DetalleVentaView.fxml",949,559);
+            control.setPrincipal(this);
+        } catch (Exception ex) {
+            System.out.println("Error al ir a DetalleVenta"+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}
 
-public void getMovimientosInventarioView(){
-    try {
-        MovimientosInventarioController control =
-                (MovimientosInventarioController) cambiarEscena("MovimientosInventarioView.fxml",1000,800);
-        control.setPrincipal(this);
-    } catch (Exception ex) {
-        System.out.println("Error al ir a MovimientosInventario"+ex.getMessage());
-        ex.printStackTrace();
+    public void getMovimientosInventarioView(){
+        try {
+            MovimientosInventarioController control =
+                    (MovimientosInventarioController) cambiarEscena("MovimientosInventarioView.fxml",931,553);
+            control.setPrincipal(this);
+        } catch (Exception ex) {
+            System.out.println("Error al ir a MovimientosInventario"+ex.getMessage());
+            ex.printStackTrace();
+        }
     }
-}
     
     
 }

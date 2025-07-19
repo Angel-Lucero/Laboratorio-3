@@ -10,15 +10,21 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="622.0" prefWidth="931.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.DetalleVentaController">
+<AnchorPane id="AnchorPane" prefHeight="554.0" prefWidth="949.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.laboratorio.controller.DetalleVentaController">
     <stylesheets>
         <URL value="@Detalle_Venta_View.css" />
     </stylesheets>
    <children>
+      <ImageView fitHeight="559.0" fitWidth="1002.0" layoutX="-46.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+           <Image url="@/org/laboratorio/image/34.png" />
+         </image>
+      </ImageView>
       <Button fx:id="btnVolver" layoutX="25.0" layoutY="24.0" mnemonicParsing="false" onAction="#volverMenuPrincipal" text="Volver a Menu Principal" />
       
-      <TableView fx:id="tablaDetallesVenta" layoutX="36.0" layoutY="136.0" prefHeight="259.0" prefWidth="880.0">
+      <TableView fx:id="tablaDetallesVenta" layoutX="35.0" layoutY="109.0" prefHeight="259.0" prefWidth="880.0">
          <columns>
             <TableColumn fx:id="colId" prefWidth="169.0" text="ID Detalle" />
             <TableColumn fx:id="colVentaId" prefWidth="164.0" text="ID Venta" />
@@ -29,39 +35,42 @@
          </columns>
       </TableView>
       
-      <TextField fx:id="txtBuscar" layoutX="38.0" layoutY="97.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar por ID Venta/Producto" />
+      <TextField fx:id="txtBuscar" layoutX="37.0" layoutY="70.0" prefHeight="31.0" prefWidth="162.0" promptText="Buscar por ID Venta/Producto" />
       
-      <Button fx:id="btnBuscar" layoutX="209.0" layoutY="83.0" mnemonicParsing="false" onAction="#buscarDetallesVenta" prefHeight="45.0" prefWidth="34.0">
+      <Button fx:id="btnBuscar" layoutX="207.0" layoutY="55.0" mnemonicParsing="false" onAction="#buscarDetallesVenta" prefHeight="45.0" prefWidth="34.0">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../../../Downloads/Buscar.png" />
+                  <Image url="@/org/laboratorio/image/Buscar.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
       
-      <TextField fx:id="txtID" layoutX="119.0" layoutY="457.0" promptText="ID Detalle" />
-      <TextField fx:id="txtPrecioUnitario" layoutX="401.0" layoutY="457.0" promptText="Precio Unitario" />
-      <TextField fx:id="txtImporte" layoutX="402.0" layoutY="490.0" promptText="Importe" />
-      <TextField fx:id="txtCantidad" layoutX="119.0" layoutY="559.0" promptText="Cantidad" />
+      <TextField fx:id="txtID" layoutX="149.0" layoutY="431.0" promptText="ID Detalle" />
+      <TextField fx:id="txtPrecioUnitario" layoutX="432.0" layoutY="468.0" promptText="Precio Unitario" />
+      <TextField fx:id="txtImporte" layoutX="432.0" layoutY="512.0" promptText="Importe" />
+      <TextField fx:id="txtCantidad" layoutX="432.0" layoutY="431.0" promptText="Cantidad" />
       
-      <Label layoutX="56.0" layoutY="563.0" text="Cantidad" />
-      <Label layoutX="339.0" layoutY="493.0" text="Importe" />
-      <Label layoutX="48.0" layoutY="528.0" text="ID Producto" />
-      <Label layoutX="59.0" layoutY="493.0" text="ID Venta" />
-      <Label layoutX="56.0" layoutY="461.0" text="ID Detalle" />
-      <Label layoutX="311.0" layoutY="461.0" text="Precio Unitario" />
+      <Label layoutX="369.0" layoutY="442.0" text="Cantidad" />
+      <Label layoutX="369.0" layoutY="509.0" text="Importe" />
+      <Label layoutX="78.0" layoutY="502.0" text="ID Producto" />
+      <Label layoutX="89.0" layoutY="467.0" text="ID Venta" />
+      <Label layoutX="86.0" layoutY="435.0" text="ID Detalle" />
+      <Label layoutX="341.0" layoutY="474.0" text="Precio Unitario" />
       
-      <Button fx:id="btnReporte" layoutX="770.0" layoutY="408.0" mnemonicParsing="false" text="Reporte" />
-      <Button fx:id="btnEditar" layoutX="691.0" layoutY="408.0" mnemonicParsing="false" onAction="#accionEditar" text="Editar" />
-      <Button fx:id="btnEliminar" layoutX="598.0" layoutY="408.0" mnemonicParsing="false" onAction="#accionEliminarCancelar" text="Eliminar" />
-      <Button fx:id="btnNuevo" layoutX="509.0" layoutY="408.0" mnemonicParsing="false" onAction="#accionNuevo" text="Agregar" />
-      <Button fx:id="btnSiguiente" layoutX="182.0" layoutY="408.0" mnemonicParsing="false" onAction="#navegarSiguiente" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
-      <Button fx:id="btnAnterior" layoutX="100.0" layoutY="408.0" mnemonicParsing="false" onAction="#navegarAnterior" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
+      <Button fx:id="btnReporte" layoutX="770.0" layoutY="379.0" mnemonicParsing="false" text="Reporte" />
+      <Button fx:id="btnEditar" layoutX="691.0" layoutY="379.0" mnemonicParsing="false" onAction="#accionEditar" text="Editar" />
+      <Button fx:id="btnEliminar" layoutX="598.0" layoutY="379.0" mnemonicParsing="false" onAction="#accionEliminarCancelar" text="Eliminar" />
+      <Button fx:id="btnNuevo" layoutX="509.0" layoutY="379.0" mnemonicParsing="false" onAction="#accionNuevo" text="Agregar" />
+      <Button fx:id="btnSiguiente" layoutX="179.0" layoutY="379.0" mnemonicParsing="false" onAction="#navegarSiguiente" prefHeight="31.0" prefWidth="55.0" text="&gt;&gt;" />
+      <Button fx:id="btnAnterior" layoutX="107.0" layoutY="379.0" mnemonicParsing="false" onAction="#navegarAnterior" prefHeight="31.0" prefWidth="55.0" text="&lt;&lt;" />
       
-      <Label layoutX="455.0" layoutY="49.0" text="Detalle Venta" />
-      <ComboBox fx:id="cbxVenta" layoutX="117.0" layoutY="491.0" prefWidth="150.0" />
-      <ComboBox fx:id="cbxProducto" layoutX="118.0" layoutY="524.0" prefWidth="150.0" />
+      <Label layoutX="369.0" layoutY="20.0" prefHeight="70.0" prefWidth="299.0" styleClass="label-title" text="Detalle Venta">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <ComboBox fx:id="cbxVenta" editable="true" layoutX="147.0" layoutY="465.0" prefWidth="150.0" promptText="Elegir Venta" styleClass="custom-combobox" stylesheets="@Detalle_Venta_View.css" />
+      <ComboBox fx:id="cbxProducto" editable="true" layoutX="148.0" layoutY="498.0" prefWidth="150.0" promptText="Elegir Producto" style="-fx-background-color: #f5f5f5;" styleClass="custom-combobox" stylesheets="@Detalle_Venta_View.css" />
    </children>
 </AnchorPane>
